@@ -34,7 +34,7 @@
     {
       "width": 650,
       "height": 180,
-      "title": "Tracking Records by Year - Click a Year to Filter the Month Chart, Double click to select all",
+      "title": "Tracking Records by Year - Click a Year to Filter the Month Chart",
 
       "params": [
         {
@@ -132,7 +132,8 @@
       "transform": [
         {
           "filter": {
-            "param": "year_pick"
+            "param": "year_pick",
+            "empty": true
           }
         },
         {
