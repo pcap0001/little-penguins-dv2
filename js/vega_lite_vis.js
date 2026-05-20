@@ -1,13 +1,13 @@
-var vg_1 = "js/records_by_month.vg.json?v=2";
-var vg_2 = "js/records_by_year.vg.json?v=2";
-var vg_3 = "js/records_by_penguin.vg.json?v=2";
-var vg_4 = "js/penguin_tracking_map.vg.json?v=2";
-var vg_5 = "js/penguin_tracks_map.vg.json?v=2";
-var vg_6 = "js/fledglings_over_time.vg.json?v=2";
-var vg_7 = "js/breeding_stages_by_year.vg.json?v=2";
-var vg_8 = "js/breeding_success_heatmap.vg.json?v=2";
-var vg_9 = "js/sst_vs_fledglings.vg.json?v=2";
-var vg_10 = "js/breeding_season_timing.vg.json?v=2";
+var vg_1 = "js/records_by_month.vg.json";
+var vg_2 = "js/records_by_year.vg.json";
+var vg_3 = "js/records_by_penguin.vg.json";
+var vg_4 = "js/penguin_tracking_map.vg.json";
+var vg_5 = "js/penguin_tracks_map.vg.json";
+var vg_6 = "js/fledglings_over_time.vg.json";
+var vg_7 = "js/breeding_stages_by_year.vg.json";
+var vg_8 = "js/breeding_success_heatmap.vg.json";
+var vg_9 = "js/sst_vs_fledglings.vg.json";
+var vg_10 = "js/breeding_season_timing.vg.json";
 
 vegaEmbed("#records_by_month", vg_1).then(function(result) {
 }).catch(console.error);
