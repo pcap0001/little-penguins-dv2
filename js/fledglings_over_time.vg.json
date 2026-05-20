@@ -4,7 +4,7 @@
   "height": 400,
   "title": "Fledglings Over Time by Colony",
   "data": {
-    "url": "../data/colony_breeding.csv"
+    "url": "/data/colony_breeding.csv"
   },
   "mark": {
     "type": "line",

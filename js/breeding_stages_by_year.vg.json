@@ -4,7 +4,7 @@
   "height": 400,
   "title": "Eggs, Nestlings and Fledglings by Year",
   "data": {
-    "url": "../data/colony_breeding.csv"
+    "url": "/data/colony_breeding.csv"
   },
   "transform": [
     {
