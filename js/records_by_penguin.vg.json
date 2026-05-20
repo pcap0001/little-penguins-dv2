@@ -7,7 +7,7 @@
   "params": [
     {
       "name": "Top_N",
-      "value": 20,
+      "value": 10,
       "bind": {
         "input": "range",
         "min": 5,

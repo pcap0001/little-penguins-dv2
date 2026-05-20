@@ -1,0 +1,195 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Tracking Records Over Time",
+
+  "params": [
+    {
+      "name": "Include_NSW",
+      "value": false,
+      "bind": {
+        "input": "checkbox",
+        "name": "Include NSW penguins "
+      }
+    }
+  ],
+
+  "data": {
+    "url": "https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv"
+  },
+
+  "transform": [
+    {
+      "filter": "isValid(datum.organismID)"
+    },
+    {
+      "calculate": "toNumber(datum.organismID)",
+      "as": "penguinID_num"
+    },
+    {
+      "filter": "Include_NSW || datum.penguinID_num < 1000"
+    }
+  ],
+
+  "vconcat": [
+    {
+      "width": 650,
+      "height": 180,
+      "title": "Tracking Records by Year - Click a Year to Filter the Month Chart, Double click to select all",
+
+      "params": [
+        {
+          "name": "year_pick",
+          "select": {
+            "type": "point",
+            "fields": ["year"]
+          }
+        }
+      ],
+
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "count",
+              "as": "tracking_records"
+            }
+          ],
+          "groupby": ["year"]
+        },
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "rank"
+            }
+          ],
+          "sort": [
+            {
+              "field": "tracking_records",
+              "order": "descending"
+            }
+          ]
+        }
+      ],
+
+      "mark": {
+        "type": "bar",
+        "cornerRadiusTopLeft": 3,
+        "cornerRadiusTopRight": 3
+      },
+
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": "Year",
+          "sort": ["2008", "2009", "2010", "2011", "2012", "2013", "2014"],
+          "axis": {
+            "labelAngle": 0
+          }
+        },
+        "y": {
+          "field": "tracking_records",
+          "type": "quantitative",
+          "title": "Number of tracking records",
+          "axis": {
+            "labelExpr": "format(datum.value, ',.0f')"
+          }
+        },
+        "color": {
+          "condition": {
+            "param": "year_pick",
+            "value": "#2f6f8f"
+          },
+          "value": "#9ab6c4"
+        },
+        "tooltip": [
+          {
+            "field": "year",
+            "type": "ordinal",
+            "title": "Year"
+          },
+          {
+            "field": "tracking_records",
+            "type": "quantitative",
+            "title": "Tracking records",
+            "format": ","
+          },
+          {
+            "field": "rank",
+            "type": "ordinal",
+            "title": "Rank"
+          }
+        ]
+      }
+    },
+
+    {
+      "width": 650,
+      "height": 180,
+      "title": "Tracking Records by Month",
+
+      "transform": [
+        {
+          "filter": {
+            "param": "year_pick"
+          }
+        },
+        {
+          "aggregate": [
+            {
+              "op": "count",
+              "as": "tracking_records"
+            }
+          ],
+          "groupby": ["month"]
+        }
+      ],
+
+      "mark": {
+        "type": "bar",
+        "cornerRadiusTopLeft": 3,
+        "cornerRadiusTopRight": 3
+      },
+
+      "encoding": {
+        "x": {
+          "field": "month",
+          "type": "ordinal",
+          "title": "Month",
+          "sort": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+          "axis": {
+            "labelAngle": 0,
+            "labelExpr": "datum.label == '01' ? 'Jan' : datum.label == '02' ? 'Feb' : datum.label == '03' ? 'Mar' : datum.label == '04' ? 'Apr' : datum.label == '05' ? 'May' : datum.label == '06' ? 'Jun' : datum.label == '07' ? 'Jul' : datum.label == '08' ? 'Aug' : datum.label == '09' ? 'Sep' : datum.label == '10' ? 'Oct' : datum.label == '11' ? 'Nov' : 'Dec'"
+          }
+        },
+        "y": {
+          "field": "tracking_records",
+          "type": "quantitative",
+          "title": "Number of tracking records",
+          "axis": {
+            "labelExpr": "format(datum.value, ',.0f')"
+          }
+        },
+        "color": {
+          "value": "#2f6f8f"
+        },
+        "tooltip": [
+          {
+            "field": "month",
+            "type": "ordinal",
+            "title": "Month"
+          },
+          {
+            "field": "tracking_records",
+            "type": "quantitative",
+            "title": "Tracking records",
+            "format": ","
+          }
+        ]
+      }
+    }
+  ],
+
+  "spacing": 30
+}
