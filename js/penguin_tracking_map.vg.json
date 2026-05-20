@@ -25,9 +25,9 @@
       }
     },
     {
-      "data": {
-        "url": "../data/little_penguins_tracking_clean.csv"
-      },
+"data": {
+  "url": "https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv"
+},
       "mark": {
         "type": "circle",
         "size": 20,
