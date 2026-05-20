@@ -1,0 +1,67 @@
+Year,Colony,Burrows monitored,Number of eggs,Number of nestlings,Number of fledglings,Second clutch,Start breeding,End breeding,Wind speeds,Rainfall,Number of days over 30C,Sea surface Temperature
+2012,Antechamber Bay,41,56,34,17,1,may,january ,24.46,46.87,8,19.32
+2013,Antechamber Bay,22,26,16,6,0,august,january ,26.3,49.83,8,16.32
+2014,Antechamber Bay,11,16,11,9,1,july,february,24.29,23.45,5,17.02
+2015,Antechamber Bay,6,10,6,2,0,august,january ,23.32,23.32,11,14.66
+2016,Antechamber Bay,3,4,2,1,0,august,december,23.9,63,2,15.38
+2012,Emu Bay,30,58,42,15,3,june,january ,14.79,39.15,18,18.77
+2013,Emu Bay,23,41,28,13,5,june,january ,16.05,60.23,15,19.85
+2014,Emu Bay,20,40,17,10,4,july,february,15.56,24.18,24,17.43
+2015,Emu Bay,24,44,31,5,2,june,january ,14.78,36.03,30,17.72
+2016,Emu Bay,18,26,17,10,0,july,january ,15.76,62.83,16,17
+2008,Kingscote,28,47,42,21,4,june,february,16.26,30.91,23,18.18
+2009,Kingscote,29,25,25,11,2,april,december,14.3,49.4,20,20.18
+2010,Kingscote,28,51,44,27,7,april,january ,14.37,41.2,13,20.4
+2011,Kingscote,30,55,50,29,6,may,january ,14.64,32.76,13,18.85
+2012,Kingscote,25,14,10,3,1,may,november,13.79,46.74,8,19.58
+2013,Kingscote,11,8,6,3,0,june,november,15.47,76.73,2,19.65
+2014,Kingscote,16,30,21,13,0,may,december,13.66,33.88,10,19.18
+2015,Kingscote,7,14,6,2,1,may,january ,14.72,35.58,30,19.08
+2016,Kingscote,8,6,2,2,0,july,january ,15.25,66.6,16,16.83
+2008,Nepean Pines,27,23,17,5,2,april,january ,14.91,34.5,16,19.57
+2009,Nepean Pines,28,20,20,16,2,april,january ,14.6,45.46,25,20.18
+2010,Nepean Pines,24,18,13,9,1,june,january ,14.84,43.65,13,18.52
+2011,Nepean Pines,21,21,13,10,2,june,january ,15.12,30.65,13,17.75
+2012,Nepean Pines,17,19,16,11,2,april,january ,14.4,37.56,21,19.87
+2008,Brownlow,26,35,33,22,3,may,january ,15.12,35.93,16,18.95
+2009,Brownlow,21,24,19,13,0,may,january ,14.72,44.73,25,19.78
+2010,Brownlow,21,25,22,15,3,may,january ,14.58,42.69,13,19.76
+2011,Brownlow,22,18,17,15,1,april,january ,14.35,31.26,13,19.82
+2012,Brownlow,15,12,12,5,1,may,january ,14.61,38.16,18,19.58
+2012,Penneshaw,23,22,16,11,0,june,novmeber,24.95,60.22,4,18.57
+2013,Penneshaw,10,7,4,4,0,july ,january ,26.47,53.29,8,17.57
+2012,Vivonne Bay,26,40,32,20,1,may,december,15.25,58.09,11,18.68
+2013,Vivonne Bay,11,18,16,15,0,june,december,16.58,70.9,6,19.27
+2004,Troubridge Island,164,246,146,122,0,march,january ,21.39,32.09,18,19.93
+2005,Troubridge Island,209,295,132,109,0,april,december,19.74,40.24,11,20.43
+2006,Troubridge Island,203,124,30,22,0,april,december,19.88,20.13,17,20.74
+2013,Troubridge Island,47,74,36,19,5,may,january ,17.87,50.09,19,21.09
+2014,Troubridge Island,35,66,36,16,4,june,february,17.96,25.82,21,19.06
+2015,Troubridge Island,39,60,26,9,3,may,february,17.2,26.42,25,19.48
+2016,Troubridge Island,31,61,53,33,0,august,december,17.59,46.12,7,15.11
+2017,Troubridge Island,28,45,32,11,1,may,december,15.6,43.95,15,20.59
+1998,West Island,40,59,45,35,0,august,march,9.8,32.9,15,14.46
+1999,West Island,42,67,41,14,5,may,february ,10.76,47.26,21,18.28
+2001,West Island,38,56,40,10,2,april,february,10.98,50.98,13,19.18
+2003,West Island,34,51,40,16,1,april,november,10.94,63.69,9,18.64
+1990,Granite Island,80,71,49,33,2,may,december,22.86,52.53,10,19.04
+1991,Granite Island,120,192,103,39,25,may,december,16.22,50.16,8,18.84
+1995,Granite Island,58,99,69,37,14,may,january ,12.57,51.91,9,18.54
+1996,Granite Island,80,243,135,56,47,may,january ,13.49,50.36,15,18.36
+1998,Granite Island,40,64,59,43,0,september,february ,10.37,26.13,15,13.62
+1999,Granite Island,40,88,60,34,10,may ,february ,10.22,47.26,21,18.26
+2001,Granite Island,40,72,39,7,8,may ,february ,11.04,53.78,10,18.88
+2002,Granite Island,40,104,59,27,15,april,february,11.52,36.79,21,18.7
+2003,Granite Island,40,92,63,21,13,april,march,10.95,49.26,21,18.61
+2004,Granite Island,47,100,72,34,17,march,january ,10.87,43.45,25,18.99
+2005,Granite Island,48,81,61,27,14,may,february,9.13,57.17,19,18.88
+2006,Granite Island,75,127,97,34,14,may,february,9.01,28.92,32,19.09
+2008,Granite Island,64,133,108,82,11,april,february,9.31,44.6,20,18.46
+2010,Granite Island,34,60,42,29,5,june,febuary ,9.15,64.13,15,18.11
+2011,Granite Island,30,37,25,22,2,may,march,9.06,44.27,24,18.36
+2012,Granite Island,12,16,16,8,0,august,january ,10.24,32.6,17,14.62
+2013,Granite Island,7,12,9,9,0,june,february,11.27,60.33,24,19.03
+2014,Granite Island,15,18,15,15,0,april,january ,10.54,40.92,18,19.07
+2015,Granite Island,12,10,5,5,0,august,january ,9.62,22.6,24,14.11
+2016,Granite Island,11,18,18,17,1,july,january ,9.03,83.8,13,16.5
+2017,Granite Island,15,18,15,15,2,June,February ,7.58,45.62,30,18.41

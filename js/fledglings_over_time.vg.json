@@ -1,0 +1,51 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 650,
+  "height": 400,
+  "title": "Fledglings Over Time by Colony",
+  "data": {
+    "url": "../data/colony_breeding.csv"
+  },
+  "mark": {
+    "type": "line",
+    "point": true,
+    "strokeWidth": 2
+  },
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {
+        "labelAngle": -45
+      }
+    },
+    "y": {
+      "field": "Number of fledglings",
+      "type": "quantitative",
+      "title": "Number of fledglings"
+    },
+    "color": {
+      "field": "Colony",
+      "type": "nominal",
+      "title": "Colony"
+    },
+    "tooltip": [
+      {
+        "field": "Colony",
+        "type": "nominal",
+        "title": "Colony"
+      },
+      {
+        "field": "Year",
+        "type": "ordinal",
+        "title": "Year"
+      },
+      {
+        "field": "Number of fledglings",
+        "type": "quantitative",
+        "title": "Fledglings"
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 650,
+  "height": 500,
+  "title": "Tracking Records by Individual Penguin",
+  "data": {
+    "url": "../data/little_penguins_tracking_clean.csv"
+  },
+  "mark": {
+    "type": "bar",
+    "cornerRadiusEnd": 3
+  },
+  "encoding": {
+    "y": {
+      "field": "organismID",
+      "type": "nominal",
+      "title": "Individual penguin ID",
+      "sort": "-x"
+    },
+    "x": {
+      "aggregate": "count",
+      "type": "quantitative",
+      "title": "Number of tracking records"
+    },
+    "color": {
+      "value": "#2f6f8f"
+    },
+    "tooltip": [
+      {
+        "field": "organismID",
+        "type": "nominal",
+        "title": "Penguin ID"
+      },
+      {
+        "aggregate": "count",
+        "type": "quantitative",
+        "title": "Records",
+        "format": ","
+      }
+    ]
+  }
+}

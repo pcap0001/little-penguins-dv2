@@ -1,0 +1,70 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 650,
+  "height": 400,
+  "title": "Eggs, Nestlings and Fledglings by Year",
+  "data": {
+    "url": "../data/colony_breeding.csv"
+  },
+  "transform": [
+    {
+      "fold": [
+        "Number of eggs",
+        "Number of nestlings",
+        "Number of fledglings"
+      ],
+      "as": ["Breeding stage", "Count"]
+    }
+  ],
+  "mark": {
+    "type": "bar",
+    "cornerRadiusTopLeft": 2,
+    "cornerRadiusTopRight": 2
+  },
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {
+        "labelAngle": -45
+      }
+    },
+    "y": {
+      "aggregate": "sum",
+      "field": "Count",
+      "type": "quantitative",
+      "title": "Total count"
+    },
+    "color": {
+      "field": "Breeding stage",
+      "type": "nominal",
+      "title": "Breeding stage",
+      "scale": {
+        "range": ["#9ecae1", "#4292c6", "#08519c"]
+      }
+    },
+    "xOffset": {
+      "field": "Breeding stage"
+    },
+    "tooltip": [
+      {
+        "field": "Year",
+        "type": "ordinal",
+        "title": "Year"
+      },
+      {
+        "field": "Breeding stage",
+        "type": "nominal",
+        "title": "Stage"
+      },
+      {
+        "aggregate": "sum",
+        "field": "Count",
+        "type": "quantitative",
+        "title": "Total",
+        "format": ","
+      }
+    ]
+  }
+}

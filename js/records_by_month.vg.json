@@ -1,0 +1,48 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 300,
+  "title": "Little Penguin Tracking Records by Month",
+  "data": {
+    "url": "../data/little_penguins_tracking_clean.csv"
+  },
+  "mark": {
+    "type": "bar",
+    "cornerRadiusTopLeft": 3,
+    "cornerRadiusTopRight": 3
+  },
+  "encoding": {
+    "x": {
+      "field": "month",
+      "type": "ordinal",
+      "title": "Month",
+      "sort": ["01", "09", "10", "11", "12"],
+      "axis": {
+        "labelAngle": 0,
+        "labelExpr": "datum.label == '01' ? 'Jan' : datum.label == '09' ? 'Sep' : datum.label == '10' ? 'Oct' : datum.label == '11' ? 'Nov' : 'Dec'"
+      }
+    },
+    "y": {
+      "aggregate": "count",
+      "type": "quantitative",
+      "title": "Number of tracking records"
+    },
+    "color": {
+      "value": "#2f6f8f"
+    },
+    "tooltip": [
+      {
+        "field": "month",
+        "type": "ordinal",
+        "title": "Month",
+        "format": ""
+      },
+      {
+        "aggregate": "count",
+        "type": "quantitative",
+        "title": "Records",
+        "format": ","
+      }
+    ]
+  }
+}

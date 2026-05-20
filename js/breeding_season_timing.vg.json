@@ -1,0 +1,80 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 650,
+  "height": 400,
+  "title": "Breeding Season Timing by Colony",
+  "data": {
+    "url": "../data/colony_breeding.csv"
+  },
+  "transform": [
+    {
+      "calculate": "indexof(['january','february','march','april','may','june','july','august','september','october','november','december'], lower(trim(datum['Start breeding']))) + 1",
+      "as": "start_month_num"
+    },
+    {
+      "calculate": "indexof(['january','february','march','april','may','june','july','august','september','october','november','december'], lower(trim(datum['End breeding']))) + 1",
+      "as": "end_month_raw"
+    },
+    {
+      "calculate": "datum.end_month_raw < datum.start_month_num ? datum.end_month_raw + 12 : datum.end_month_raw",
+      "as": "end_month_num"
+    },
+    {
+      "filter": "datum.start_month_num > 0 && datum.end_month_num > 0"
+    }
+  ],
+  "mark": {
+    "type": "bar",
+    "height": 10,
+    "cornerRadius": 4
+  },
+  "encoding": {
+    "y": {
+      "field": "Colony",
+      "type": "nominal",
+      "title": "Colony"
+    },
+    "x": {
+      "field": "start_month_num",
+      "type": "quantitative",
+      "title": "Breeding season timing",
+      "scale": {
+        "domain": [1, 14]
+      },
+      "axis": {
+        "values": [1, 3, 5, 7, 9, 11, 13],
+        "labelExpr": "datum.value == 1 ? 'Jan' : datum.value == 3 ? 'Mar' : datum.value == 5 ? 'May' : datum.value == 7 ? 'Jul' : datum.value == 9 ? 'Sep' : datum.value == 11 ? 'Nov' : 'Jan'"
+      }
+    },
+    "x2": {
+      "field": "end_month_num"
+    },
+    "color": {
+      "field": "Colony",
+      "type": "nominal",
+      "legend": null
+    },
+    "tooltip": [
+      {
+        "field": "Colony",
+        "type": "nominal",
+        "title": "Colony"
+      },
+      {
+        "field": "Year",
+        "type": "ordinal",
+        "title": "Year"
+      },
+      {
+        "field": "Start breeding",
+        "type": "nominal",
+        "title": "Start breeding"
+      },
+      {
+        "field": "End breeding",
+        "type": "nominal",
+        "title": "End breeding"
+      }
+    ]
+  }
+}

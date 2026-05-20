@@ -1,0 +1,71 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 650,
+  "height": 450,
+  "title": "Where Were Little Penguins Tracked?",
+"projection": {
+  "type": "mercator",
+  "center": [147.5, -37.8],
+  "scale": 4200
+},
+  "layer": [
+    {
+      "data": {
+        "url": "https://cdn.jsdelivr.net/npm/vega-datasets@2/data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e6eef2",
+        "stroke": "#9aa6ac",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "../data/little_penguins_tracking_clean.csv"
+      },
+      "mark": {
+        "type": "circle",
+        "size": 20,
+        "opacity": 0.25,
+        "color": "#2f6f8f"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "decimalLongitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "decimalLatitude",
+          "type": "quantitative"
+        },
+        "tooltip": [
+          {
+            "field": "organismID",
+            "type": "nominal",
+            "title": "Penguin ID"
+          },
+          {
+            "field": "date",
+            "type": "nominal",
+            "title": "Date"
+          },
+          {
+            "field": "decimalLatitude",
+            "type": "quantitative",
+            "title": "Latitude"
+          },
+          {
+            "field": "decimalLongitude",
+            "type": "quantitative",
+            "title": "Longitude"
+          }
+        ]
+      }
+    }
+  ]
+}

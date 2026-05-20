@@ -1,0 +1,75 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 650,
+  "height": 450,
+  "title": "Movement Paths of Individual Little Penguins",
+  "projection": {
+    "type": "mercator",
+    "center": [146.8, -38.0],
+    "scale": 2300
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "https://cdn.jsdelivr.net/npm/vega-datasets@2/data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e6eef2",
+        "stroke": "#9aa6ac",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "../data/little_penguins_tracking_clean.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.organismID == '244' || datum.organismID == '3531' || datum.organismID == '3549'"
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "point": false,
+        "strokeWidth": 2,
+        "opacity": 0.8
+      },
+      "encoding": {
+        "longitude": {
+          "field": "decimalLongitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "decimalLatitude",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "organismID",
+          "type": "nominal",
+          "title": "Penguin ID"
+        },
+        "order": {
+          "field": "eventDate",
+          "type": "temporal"
+        },
+        "tooltip": [
+          {
+            "field": "organismID",
+            "type": "nominal",
+            "title": "Penguin ID"
+          },
+          {
+            "field": "date",
+            "type": "nominal",
+            "title": "Date"
+          }
+        ]
+      }
+    }
+  ]
+}

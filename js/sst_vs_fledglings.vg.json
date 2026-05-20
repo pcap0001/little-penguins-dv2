@@ -1,0 +1,53 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 650,
+  "height": 400,
+  "title": "Sea Surface Temperature and Fledgling Numbers",
+  "data": {
+    "url": "../data/colony_breeding.csv"
+  },
+  "mark": {
+    "type": "circle",
+    "size": 90,
+    "opacity": 0.75
+  },
+  "encoding": {
+    "x": {
+      "field": "Sea surface Temperature",
+      "type": "quantitative",
+      "title": "Sea surface temperature"
+    },
+    "y": {
+      "field": "Number of fledglings",
+      "type": "quantitative",
+      "title": "Number of fledglings"
+    },
+    "color": {
+      "field": "Colony",
+      "type": "nominal",
+      "title": "Colony"
+    },
+    "tooltip": [
+      {
+        "field": "Colony",
+        "type": "nominal",
+        "title": "Colony"
+      },
+      {
+        "field": "Year",
+        "type": "ordinal",
+        "title": "Year"
+      },
+      {
+        "field": "Sea surface Temperature",
+        "type": "quantitative",
+        "title": "Sea surface temperature"
+      },
+      {
+        "field": "Number of fledglings",
+        "type": "quantitative",
+        "title": "Fledglings"
+      }
+    ]
+  }
+}

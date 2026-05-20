@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Little Penguins Data Visualisation</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+
+<body>
+
+  <h1>Australia's Little Penguins</h1>
+
+  <p>
+    This visualisation explores little penguin tracking and breeding data, showing where penguins travel and how breeding outcomes vary across colonies.
+  </p>
+
+  <div class="chart-section">
+    <h2>When were penguins tracked?</h2>
+    <p>
+      The tracking dataset records little penguin locations across several years, with records concentrated in particular months.
+    </p>
+
+    <div id="records_by_month"></div>
+  </div>
+
+  <div class="chart-section">
+  <h2>Which years have the most tracking records?</h2>
+
+  <p>
+    The tracking records are not evenly spread across years. This chart shows when the dataset contains the most recorded penguin locations.
+  </p>
+
+  <div id="records_by_year"></div>
+</div>
+
+<div class="chart-section">
+  <h2>Which penguins were tracked the most?</h2>
+
+  <p>
+    Each penguin was not recorded the same number of times. This chart ranks individual penguins by the number of location records in the tracking dataset.
+  </p>
+
+  <div id="records_by_penguin"></div>
+</div>
+
+<div class="chart-section">
+  <h2>Where did the tracked penguins travel?</h2>
+
+  <p>
+    Each point represents a recorded little penguin location. The tracking records show how movement is concentrated around coastal waters rather than spread evenly across Australia.
+  </p>
+
+  <div id="penguin_tracking_map"></div>
+</div>
+
+<div class="chart-section">
+  <h2>How did individual penguins move?</h2>
+
+  <p>
+    This map connects location records for selected penguins, showing that individual movement paths can differ even within the same tracking dataset.
+  </p>
+
+  <div id="penguin_tracks_map"></div>
+</div>
+
+<div class="chart-section">
+  <h2>How have breeding outcomes changed across colonies?</h2>
+
+  <p>
+    The Flinders breeding data tracks little penguin colonies over time. This chart compares the number of fledglings recorded across colonies and years.
+  </p>
+
+  <div id="fledglings_over_time"></div>
+</div>
+
+<div class="chart-section">
+  <h2>How many eggs become fledglings?</h2>
+
+  <p>
+    Breeding records can be read as a sequence from eggs to nestlings to fledglings. Comparing these stages helps show that not every egg becomes a surviving fledgling.
+  </p>
+
+  <div id="breeding_stages_by_year"></div>
+</div>
+
+<div class="chart-section">
+  <h2>Which colony-years had stronger breeding success?</h2>
+
+  <p>
+    This heatmap compares breeding success across colonies and years. Darker cells indicate years where a higher share of recorded eggs became fledglings.
+  </p>
+
+  <div id="breeding_success_heatmap"></div>
+</div>
+
+<div class="chart-section">
+  <h2>Do warmer sea conditions align with breeding outcomes?</h2>
+
+  <p>
+    Little penguins depend on nearby marine food sources. This scatterplot compares sea surface temperature with the number of fledglings recorded for each colony-year.
+  </p>
+
+  <div id="sst_vs_fledglings"></div>
+</div>
+
+<div class="chart-section">
+  <h2>When does breeding happen across colonies?</h2>
+
+  <p>
+    Breeding timing varies between colonies and years. This timeline-style chart shows the recorded start and end of the breeding season for each colony-year.
+  </p>
+
+  <div id="breeding_season_timing"></div>
+</div>
+
+  <script src="js/vega_lite_vis.js"></script>
+
+</body>
+
+</html>

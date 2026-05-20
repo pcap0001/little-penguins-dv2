@@ -1,0 +1,71 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 650,
+  "height": 350,
+  "title": "Breeding Success by Colony and Year",
+  "data": {
+    "url": "../data/colony_breeding.csv"
+  },
+  "transform": [
+    {
+      "calculate": "datum['Number of eggs'] > 0 ? datum['Number of fledglings'] / datum['Number of eggs'] : null",
+      "as": "breeding_success"
+    }
+  ],
+  "mark": {
+    "type": "rect",
+    "stroke": "white",
+    "strokeWidth": 0.5
+  },
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {
+        "labelAngle": -45
+      }
+    },
+    "y": {
+      "field": "Colony",
+      "type": "nominal",
+      "title": "Colony"
+    },
+    "color": {
+      "field": "breeding_success",
+      "type": "quantitative",
+      "title": "Fledglings per egg",
+      "scale": {
+        "scheme": "blues"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "Colony",
+        "type": "nominal",
+        "title": "Colony"
+      },
+      {
+        "field": "Year",
+        "type": "ordinal",
+        "title": "Year"
+      },
+      {
+        "field": "Number of eggs",
+        "type": "quantitative",
+        "title": "Eggs"
+      },
+      {
+        "field": "Number of fledglings",
+        "type": "quantitative",
+        "title": "Fledglings"
+      },
+      {
+        "field": "breeding_success",
+        "type": "quantitative",
+        "title": "Fledglings per egg",
+        "format": ".2f"
+      }
+    ]
+  }
+}
