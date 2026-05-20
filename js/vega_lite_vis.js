@@ -1,4 +1,4 @@
-var vg_1 = "js/records_by_time.vg.json?v=5";
+var vg_1 = "js/records_by_time.vg.json";
 var vg_3 = "js/records_by_penguin.vg.json";
 var vg_4 = "js/penguin_tracking_map.vg.json";
 var vg_5 = "js/penguin_tracks_map.vg.json";
