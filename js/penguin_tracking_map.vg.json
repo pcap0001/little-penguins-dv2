@@ -5,8 +5,8 @@
   "title": "Where Were Little Penguins Tracked?",
 "projection": {
   "type": "mercator",
-  "center": [147.5, -37.8],
-  "scale": 4200
+ "center": [144.88, -37.89],
+  "scale": 1800
 },
   "layer": [
     {
@@ -30,9 +30,9 @@
 },
       "mark": {
         "type": "circle",
-        "size": 20,
-        "opacity": 0.25,
-        "color": "#2f6f8f"
+        "size": 10,
+        "opacity": 0.2,
+        "color": "#f20707"
       },
       "encoding": {
         "longitude": {

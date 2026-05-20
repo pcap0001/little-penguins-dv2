@@ -22,6 +22,61 @@ vegaEmbed("#penguin_tracking_map", vg_4).then(function(result) {
 }).catch(console.error);
 
 vegaEmbed("#penguin_tracks_map", vg_5).then(function(result) {
+  var view = result.view;
+
+  var checkboxIds = [
+    "show237",
+    "show360",
+    "show251",
+    "show364",
+    "show250",
+    "show252",
+    "show243",
+    "show248",
+    "show366",
+    "show361"
+  ];
+
+  var selectAll = document.getElementById("selectAllPenguins");
+
+  function updateVegaSignal(id) {
+    var checkbox = document.getElementById(id);
+    view.signal(id, checkbox.checked);
+  }
+
+  function updateSelectAllState() {
+    var allChecked = checkboxIds.every(function(id) {
+      return document.getElementById(id).checked;
+    });
+
+    var noneChecked = checkboxIds.every(function(id) {
+      return !document.getElementById(id).checked;
+    });
+
+    selectAll.checked = allChecked;
+    selectAll.indeterminate = !allChecked && !noneChecked;
+  }
+
+  checkboxIds.forEach(function(id) {
+    var checkbox = document.getElementById(id);
+
+    checkbox.addEventListener("change", function() {
+      updateVegaSignal(id);
+      updateSelectAllState();
+      view.runAsync();
+    });
+  });
+
+  selectAll.addEventListener("change", function() {
+    checkboxIds.forEach(function(id) {
+      var checkbox = document.getElementById(id);
+      checkbox.checked = selectAll.checked;
+      updateVegaSignal(id);
+    });
+
+    selectAll.indeterminate = false;
+    view.runAsync();
+  });
 }).catch(console.error);
 
 vegaEmbed("#fledglings_over_time", vg_6).then(function(result) {

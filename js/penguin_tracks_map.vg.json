@@ -2,12 +2,28 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 650,
   "height": 450,
-  "title": "Movement Paths of Individual Little Penguins",
+  "title": "Recorded Movement of Tracked Little Penguins",
+
+
+  "params": [
+  { "name": "show237", "value": true },
+  { "name": "show360", "value": true },
+  { "name": "show251", "value": true },
+  { "name": "show364", "value": true },
+  { "name": "show250", "value": true },
+  { "name": "show252", "value": true },
+  { "name": "show243", "value": true },
+  { "name": "show248", "value": true },
+  { "name": "show366", "value": true },
+  { "name": "show361", "value": true }
+],
+
   "projection": {
     "type": "mercator",
-    "center": [146.8, -38.0],
-    "scale": 2300
+    "center": [144.89, -37.89],
+    "scale": 30000
   },
+
   "layer": [
     {
       "data": {
@@ -25,19 +41,76 @@
       }
     },
     {
-"data": {
-  "url": "https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv"
-},
+      "data": {
+        "url": "https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv"
+      },
       "transform": [
         {
-          "filter": "datum.organismID == '244' || datum.organismID == '3531' || datum.organismID == '3549'"
+          "filter": "isValid(datum.decimalLongitude) && isValid(datum.decimalLatitude)"
+        },
+        {
+          "calculate": "toDate(datum.eventDate)",
+          "as": "eventDateTime"
+        },
+        {
+          "filter": "toNumber(datum.organismID) < 1000"
+        },
+        {
+          "filter": "(show237 && datum.organismID == '237') || (show360 && datum.organismID == '360') || (show251 && datum.organismID == '251') || (show364 && datum.organismID == '364') || (show250 && datum.organismID == '250') || (show252 && datum.organismID == '252') || (show243 && datum.organismID == '243') || (show248 && datum.organismID == '248') || (show366 && datum.organismID == '366') || (show361 && datum.organismID == '361')"
         }
       ],
       "mark": {
         "type": "line",
-        "point": false,
-        "strokeWidth": 2,
-        "opacity": 0.8
+        "strokeWidth": 1.2,
+        "opacity": 0.45
+      },
+      "encoding": {
+        "longitude": {
+          "field": "decimalLongitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "decimalLatitude",
+          "type": "quantitative"
+        },
+        "detail": {
+          "field": "organismID",
+          "type": "nominal"
+        },
+        "color": {
+          "field": "organismID",
+          "type": "nominal",
+          "title": "Penguin ID"
+        },
+        "order": {
+          "field": "eventDateTime",
+          "type": "temporal"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv"
+      },
+      "transform": [
+        {
+          "filter": "isValid(datum.decimalLongitude) && isValid(datum.decimalLatitude)"
+        },
+        {
+          "calculate": "toDate(datum.eventDate)",
+          "as": "eventDateTime"
+        },
+        {
+          "filter": "toNumber(datum.organismID) < 1000"
+        },
+        {
+          "filter": "(show237 && datum.organismID == '237') || (show360 && datum.organismID == '360') || (show251 && datum.organismID == '251') || (show364 && datum.organismID == '364') || (show250 && datum.organismID == '250') || (show252 && datum.organismID == '252') || (show243 && datum.organismID == '243') || (show248 && datum.organismID == '248') || (show366 && datum.organismID == '366') || (show361 && datum.organismID == '361')"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "size": 10,
+        "opacity": 0.5
       },
       "encoding": {
         "longitude": {
@@ -53,10 +126,6 @@
           "type": "nominal",
           "title": "Penguin ID"
         },
-        "order": {
-          "field": "eventDate",
-          "type": "temporal"
-        },
         "tooltip": [
           {
             "field": "organismID",
@@ -64,9 +133,22 @@
             "title": "Penguin ID"
           },
           {
-            "field": "date",
-            "type": "nominal",
-            "title": "Date"
+            "field": "eventDateTime",
+            "type": "temporal",
+            "title": "Date and time",
+            "format": "%d %b %Y, %H:%M"
+          },
+          {
+            "field": "decimalLatitude",
+            "type": "quantitative",
+            "title": "Latitude",
+            "format": ".5f"
+          },
+          {
+            "field": "decimalLongitude",
+            "type": "quantitative",
+            "title": "Longitude",
+            "format": ".5f"
           }
         ]
       }

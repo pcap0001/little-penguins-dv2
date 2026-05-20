@@ -1,41 +1,133 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 650,
-  "height": 500,
-  "title": "Tracking Records by Individual Penguin",
+  "height": 450,
+  "title": "Most Tracked Little Penguins",
+
+  "params": [
+    {
+      "name": "Top_N",
+      "value": 20,
+      "bind": {
+        "input": "range",
+        "min": 5,
+        "max": 39,
+        "step": 1,
+        "name": "Number of penguins shown: "
+      }
+    },
+    {
+      "name": "Include_NSW",
+      "value": false,
+      "bind": {
+        "input": "checkbox",
+        "name": "Include NSW penguins "
+      }
+    }
+  ],
+
   "data": {
     "url": "https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv"
   },
+
+  "transform": [
+    {
+      "filter": "isValid(datum.organismID)"
+    },
+    {
+      "calculate": "toNumber(datum.organismID)",
+      "as": "penguinID_num"
+    },
+    {
+      "filter": "Include_NSW || datum.penguinID_num < 1000"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "tracking_records"
+        }
+      ],
+      "groupby": [
+        "organismID",
+        "penguinID_num"
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "tracking_records",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.rank <= Top_N"
+    }
+  ],
+
   "mark": {
     "type": "bar",
     "cornerRadiusEnd": 3
   },
+
   "encoding": {
     "y": {
       "field": "organismID",
       "type": "nominal",
       "title": "Individual penguin ID",
-      "sort": "-x"
+      "sort": {
+        "field": "tracking_records",
+        "order": "descending"
+      },
+      "axis": {
+        "labelLimit": 80
+      }
     },
     "x": {
-      "aggregate": "count",
+      "field": "tracking_records",
       "type": "quantitative",
-      "title": "Number of tracking records"
+      "title": "Number of tracking records",
+      "axis": {
+        "grid": true,
+        "tickCount": 8,
+        "labelExpr": "format(datum.value, ',.0f')"
+      }
     },
     "color": {
-      "value": "#2f6f8f"
+      "condition": {
+        "test": "datum.rank <= 10",
+        "value": "#2f6f8f"
+      },
+      "value": "#9ab6c4"
     },
     "tooltip": [
+      {
+        "field": "rank",
+        "type": "ordinal",
+        "title": "Rank"
+      },
       {
         "field": "organismID",
         "type": "nominal",
         "title": "Penguin ID"
       },
       {
-        "aggregate": "count",
+        "field": "tracking_records",
         "type": "quantitative",
-        "title": "Records",
+        "title": "Tracking records",
         "format": ","
+      },
+      {
+        "field": "penguinID_num",
+        "type": "quantitative",
+        "title": "Numeric ID"
       }
     ]
   }
