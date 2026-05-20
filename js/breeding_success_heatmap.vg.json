@@ -4,7 +4,7 @@
   "height": 350,
   "title": "Breeding Success by Colony and Year",
   "data": {
-    "url": "/data/colony_breeding.csv"
+    "url": "https://pcap0001.github.io/little-penguins-dv2/data/colony_breeding.csv"
   },
   "transform": [
     {

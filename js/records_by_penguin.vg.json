@@ -4,7 +4,7 @@
   "height": 500,
   "title": "Tracking Records by Individual Penguin",
   "data": {
-    "url": "/data/little_penguins_tracking_clean.csv"
+    "url": "https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv"
   },
   "mark": {
     "type": "bar",

@@ -4,7 +4,7 @@
   "height": 400,
   "title": "Breeding Season Timing by Colony",
   "data": {
-    "url": "/data/colony_breeding.csv"
+    "url": "https://pcap0001.github.io/little-penguins-dv2/data/colony_breeding.csv"
   },
   "transform": [
     {

@@ -4,7 +4,7 @@
   "height": 400,
   "title": "Sea Surface Temperature and Fledgling Numbers",
   "data": {
-    "url": "/data/colony_breeding.csv"
+    "url": "https://pcap0001.github.io/little-penguins-dv2/data/colony_breeding.csv"
   },
   "mark": {
     "type": "circle",
