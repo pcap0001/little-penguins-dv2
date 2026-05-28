@@ -1,51 +1,132 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 650,
-  "height": 400,
-  "title": "Fledglings Over Time by Colony",
+
+  "params": [
+    { "name": "showAntechamberBay", "value": true },
+    { "name": "showBrownlow",        "value": true },
+    { "name": "showEmuBay",          "value": true },
+    { "name": "showGraniteIsland",   "value": true },
+    { "name": "showKingscote",       "value": true },
+    { "name": "showNepeanPines",     "value": true },
+    { "name": "showPenneshaw",       "value": true },
+    { "name": "showTroubridge",      "value": true },
+    { "name": "showVivonneBay",      "value": true },
+    { "name": "showWestIsland",      "value": true }
+  ],
+
   "data": {
     "url": "https://pcap0001.github.io/little-penguins-dv2/data/colony_breeding.csv"
   },
-  "mark": {
-    "type": "line",
-    "point": true,
-    "strokeWidth": 2
-  },
-  "encoding": {
-    "x": {
-      "field": "Year",
-      "type": "ordinal",
-      "title": "Year",
-      "axis": {
-        "labelAngle": -45
-      }
+
+  "vconcat": [
+    {
+      "width": 600,
+      "height": 360,
+      "layer": [
+        {
+          "transform": [
+            {
+              "filter": "(showAntechamberBay && datum.Colony == 'Antechamber Bay') || (showBrownlow && datum.Colony == 'Brownlow') || (showEmuBay && datum.Colony == 'Emu Bay') || (showGraniteIsland && datum.Colony == 'Granite Island') || (showKingscote && datum.Colony == 'Kingscote') || (showNepeanPines && datum.Colony == 'Nepean Pines') || (showPenneshaw && datum.Colony == 'Penneshaw') || (showTroubridge && datum.Colony == 'Troubridge Island') || (showVivonneBay && datum.Colony == 'Vivonne Bay') || (showWestIsland && datum.Colony == 'West Island')"
+            },
+            { "filter": { "param": "year_brush", "empty": true } }
+          ],
+          "mark": { "type": "line", "point": true, "strokeWidth": 2 },
+          "encoding": {
+            "x": {
+              "field": "Year",
+              "type": "ordinal",
+              "axis": { "labelAngle": -45, "title": "Year" }
+            },
+            "y": {
+              "field": "Number of fledglings",
+              "type": "quantitative",
+              "title": "Number of fledglings"
+            },
+            "color": {
+              "field": "Colony",
+              "type": "nominal",
+              "legend": null,
+              "scale": {
+                "domain": [
+                  "Antechamber Bay", "Brownlow", "Emu Bay", "Granite Island",
+                  "Kingscote", "Nepean Pines", "Penneshaw", "Troubridge Island",
+                  "Vivonne Bay", "West Island"
+                ],
+                "range": [
+                  "#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
+                  "#59a14f", "#edc948", "#b07aa1", "#ff9da7",
+                  "#9c755f", "#bab0ac"
+                ]
+              }
+            },
+            "tooltip": [
+              { "field": "Colony",               "type": "nominal",      "title": "Colony" },
+              { "field": "Year",                 "type": "ordinal",      "title": "Year" },
+              { "field": "Number of fledglings", "type": "quantitative", "title": "Fledglings" }
+            ]
+          }
+        },
+        {
+          "transform": [
+            { "filter": "datum.Colony == 'Troubridge Island' && datum.Year == 2005" },
+            { "filter": { "param": "year_brush", "empty": true } }
+          ],
+          "mark": {
+            "type": "text",
+            "dy": -14,
+            "dx": 4,
+            "fontSize": 11,
+            "fontStyle": "italic",
+            "color": "#888"
+          },
+          "encoding": {
+            "x": { "field": "Year",                 "type": "ordinal" },
+            "y": { "field": "Number of fledglings", "type": "quantitative" },
+            "text": { "value": "Troubridge peak (122)" }
+          }
+        }
+      ]
     },
-    "y": {
-      "field": "Number of fledglings",
-      "type": "quantitative",
-      "title": "Number of fledglings"
-    },
-    "color": {
-      "field": "Colony",
-      "type": "nominal",
-      "title": "Colony"
-    },
-    "tooltip": [
-      {
-        "field": "Colony",
-        "type": "nominal",
-        "title": "Colony"
+    {
+      "width": 600,
+      "height": 55,
+      "title": {
+        "text": "Drag to filter by year range - click outside selection to reset",
+        "fontSize": 11,
+        "color": "#888",
+        "anchor": "start"
       },
-      {
-        "field": "Year",
-        "type": "ordinal",
-        "title": "Year"
-      },
-      {
-        "field": "Number of fledglings",
-        "type": "quantitative",
-        "title": "Fledglings"
+      "transform": [
+        {
+          "filter": "(showAntechamberBay && datum.Colony == 'Antechamber Bay') || (showBrownlow && datum.Colony == 'Brownlow') || (showEmuBay && datum.Colony == 'Emu Bay') || (showGraniteIsland && datum.Colony == 'Granite Island') || (showKingscote && datum.Colony == 'Kingscote') || (showNepeanPines && datum.Colony == 'Nepean Pines') || (showPenneshaw && datum.Colony == 'Penneshaw') || (showTroubridge && datum.Colony == 'Troubridge Island') || (showVivonneBay && datum.Colony == 'Vivonne Bay') || (showWestIsland && datum.Colony == 'West Island')"
+        }
+      ],
+      "params": [
+        {
+          "name": "year_brush",
+          "select": { "type": "interval", "encodings": ["x"] }
+        }
+      ],
+      "mark": { "type": "bar" },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal",
+          "axis": { "labelAngle": -45, "title": "" }
+        },
+        "y": {
+          "aggregate": "sum",
+          "field": "Number of fledglings",
+          "type": "quantitative",
+          "title": "Total",
+          "axis": { "tickCount": 2, "grid": false }
+        },
+        "color": {
+          "condition": { "param": "year_brush", "value": "#2f6f8f" },
+          "value": "#9ab6c4"
+        }
       }
-    ]
-  }
+    }
+  ],
+  "spacing": 10
 }

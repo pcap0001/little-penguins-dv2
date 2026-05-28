@@ -3,51 +3,102 @@
   "width": 650,
   "height": 400,
   "title": "Sea Surface Temperature and Fledgling Numbers",
+  "config": {
+    "legend": {
+      "orient": "right",
+      "layout": {
+        "direction": "vertical"
+      }
+    }
+  },
+  "params": [
+    { "name": "sstShowAntechamberBay", "value": true },
+    { "name": "sstShowBrownlow", "value": true },
+    { "name": "sstShowEmuBay", "value": true },
+    { "name": "sstShowGraniteIsland", "value": true },
+    { "name": "sstShowKingscote", "value": true },
+    { "name": "sstShowNepeanPines", "value": true },
+    { "name": "sstShowPenneshaw", "value": true },
+    { "name": "sstShowTroubridge", "value": true },
+    { "name": "sstShowVivonneBay", "value": true },
+    { "name": "sstShowWestIsland", "value": true }
+  ],
   "data": {
     "url": "https://pcap0001.github.io/little-penguins-dv2/data/colony_breeding.csv"
   },
+  "transform": [
+    {
+      "filter": "isValid(datum['Sea surface Temperature']) && isValid(datum['Number of fledglings']) && isValid(datum['Number of eggs'])"
+    },
+    {
+      "calculate": "datum['Number of eggs'] > 0 ? datum['Number of fledglings'] / datum['Number of eggs'] : null",
+      "as": "Fledglings per egg"
+    },
+    {
+      "filter": "(sstShowAntechamberBay && datum.Colony == 'Antechamber Bay') || (sstShowBrownlow && datum.Colony == 'Brownlow') || (sstShowEmuBay && datum.Colony == 'Emu Bay') || (sstShowGraniteIsland && datum.Colony == 'Granite Island') || (sstShowKingscote && datum.Colony == 'Kingscote') || (sstShowNepeanPines && datum.Colony == 'Nepean Pines') || (sstShowPenneshaw && datum.Colony == 'Penneshaw') || (sstShowTroubridge && datum.Colony == 'Troubridge Island') || (sstShowVivonneBay && datum.Colony == 'Vivonne Bay') || (sstShowWestIsland && datum.Colony == 'West Island')"
+    }
+  ],
   "mark": {
     "type": "circle",
-    "size": 90,
-    "opacity": 0.75
+    "opacity": 0.75,
+    "stroke": "white",
+    "strokeWidth": 0.8
   },
   "encoding": {
     "x": {
       "field": "Sea surface Temperature",
       "type": "quantitative",
-      "title": "Sea surface temperature"
+      "title": "Sea surface temperature (°C)",
+      "scale": { "zero": false },
+      "axis": { "labelExpr": "format(datum.value, '.1f')" }
     },
     "y": {
       "field": "Number of fledglings",
       "type": "quantitative",
-      "title": "Number of fledglings"
+      "title": "Number of fledglings",
+      "axis": { "labelExpr": "format(datum.value, ',.0f')" }
+    },
+    "size": {
+      "field": "Number of eggs",
+      "type": "quantitative",
+      "title": "Eggs recorded",
+      "scale": {
+        "type": "linear",
+        "domain": [1, 280],
+        "range": [30, 700],
+        "zero": false
+      },
+      "legend": {
+        "format": "d",
+        "values": [50, 100, 150, 200, 250]
+      }
     },
     "color": {
       "field": "Colony",
       "type": "nominal",
-      "title": "Colony"
+      "title": "Colony",
+      "legend": null,
+      "scale": {
+        "domain": [
+          "Antechamber Bay", "Brownlow", "Emu Bay", "Granite Island",
+          "Kingscote", "Nepean Pines", "Penneshaw", "Troubridge Island",
+          "Vivonne Bay", "West Island"
+        ],
+        "range": [
+          "#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
+          "#59a14f", "#edc948", "#b07aa1", "#ff9da7",
+          "#9c755f", "#bab0ac"
+        ]
+      }
     },
     "tooltip": [
-      {
-        "field": "Colony",
-        "type": "nominal",
-        "title": "Colony"
-      },
-      {
-        "field": "Year",
-        "type": "ordinal",
-        "title": "Year"
-      },
-      {
-        "field": "Sea surface Temperature",
-        "type": "quantitative",
-        "title": "Sea surface temperature"
-      },
-      {
-        "field": "Number of fledglings",
-        "type": "quantitative",
-        "title": "Fledglings"
-      }
+      { "field": "Colony", "type": "nominal", "title": "Colony" },
+      { "field": "Year", "type": "ordinal", "title": "Year" },
+      { "field": "Sea surface Temperature", "type": "quantitative", "title": "Sea surface temperature (°C)", "format": ".1f" },
+      { "field": "Number of eggs", "type": "quantitative", "title": "Eggs", "format": "," },
+      { "field": "Number of nestlings", "type": "quantitative", "title": "Nestlings", "format": "," },
+      { "field": "Number of fledglings", "type": "quantitative", "title": "Fledglings", "format": "," },
+      { "field": "Fledglings per egg", "type": "quantitative", "title": "Fledglings per egg", "format": ".2f" }
     ]
   }
 }

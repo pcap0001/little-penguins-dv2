@@ -1,11 +1,16 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 650,
-  "height": 400,
-  "title": "Eggs, Nestlings and Fledglings by Year",
+
+  "params": [
+    { "name": "showEggs", "value": true },
+    { "name": "showNestlings", "value": true },
+    { "name": "showFledglings", "value": true }
+  ],
+
   "data": {
     "url": "https://pcap0001.github.io/little-penguins-dv2/data/colony_breeding.csv"
   },
+
   "transform": [
     {
       "fold": [
@@ -14,57 +19,172 @@
         "Number of fledglings"
       ],
       "as": ["Breeding stage", "Count"]
+    },
+    {
+      "calculate": "datum['Breeding stage'] == 'Number of eggs' ? 'Eggs' : datum['Breeding stage'] == 'Number of nestlings' ? 'Nestlings' : 'Fledglings'",
+      "as": "Stage"
+    },
+    {
+      "filter": "(showEggs && datum.Stage == 'Eggs') || (showNestlings && datum.Stage == 'Nestlings') || (showFledglings && datum.Stage == 'Fledglings')"
     }
   ],
-  "mark": {
-    "type": "bar",
-    "cornerRadiusTopLeft": 2,
-    "cornerRadiusTopRight": 2
-  },
-  "encoding": {
-    "x": {
-      "field": "Year",
-      "type": "ordinal",
-      "title": "Year",
-      "axis": {
-        "labelAngle": -45
-      }
-    },
-    "y": {
-      "aggregate": "sum",
-      "field": "Count",
-      "type": "quantitative",
-      "title": "Total count"
-    },
-    "color": {
-      "field": "Breeding stage",
-      "type": "nominal",
-      "title": "Breeding stage",
-      "scale": {
-        "range": ["#9ecae1", "#4292c6", "#08519c"]
-      }
-    },
-    "xOffset": {
-      "field": "Breeding stage"
-    },
-    "tooltip": [
-      {
-        "field": "Year",
-        "type": "ordinal",
-        "title": "Year"
+
+  "vconcat": [
+    {
+      "width": 600,
+      "height": 330,
+
+      "transform": [
+        {
+          "filter": {
+            "param": "stage_year_brush",
+            "empty": true
+          }
+        },
+        {
+          "aggregate": [
+            {
+              "op": "sum",
+              "field": "Count",
+              "as": "Total count"
+            }
+          ],
+          "groupby": ["Year", "Stage"]
+        }
+      ],
+
+      "mark": {
+        "type": "line",
+        "point": true,
+        "strokeWidth": 2.5
       },
-      {
-        "field": "Breeding stage",
-        "type": "nominal",
-        "title": "Stage"
-      },
-      {
-        "aggregate": "sum",
-        "field": "Count",
-        "type": "quantitative",
-        "title": "Total",
-        "format": ","
+
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal",
+          "title": "Year",
+          "axis": {
+            "labelAngle": -45
+          }
+        },
+        "y": {
+          "field": "Total count",
+          "type": "quantitative",
+          "title": "Total count",
+          "axis": {
+            "labelExpr": "format(datum.value, ',.0f')"
+          }
+        },
+        "color": {
+          "field": "Stage",
+          "type": "nominal",
+          "legend": null,
+          "scale": {
+            "domain": ["Eggs", "Nestlings", "Fledglings"],
+            "range": ["#9ecae1", "#225ea8", "#4292c6"]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "Stage",
+            "type": "nominal",
+            "title": "Breeding stage"
+          },
+          {
+            "field": "Year",
+            "type": "ordinal",
+            "title": "Year"
+          },
+          {
+            "field": "Total count",
+            "type": "quantitative",
+            "title": "Total count",
+            "format": ","
+          }
+        ]
       }
-    ]
-  }
+    },
+
+    {
+      "width": 600,
+      "height": 55,
+      "title": {
+        "text": "Drag to filter by year range - click outside selection to reset",
+        "fontSize": 11,
+        "color": "#888",
+        "anchor": "start"
+      },
+
+      "params": [
+        {
+          "name": "stage_year_brush",
+          "select": {
+            "type": "interval",
+            "encodings": ["x"]
+          }
+        }
+      ],
+
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "sum",
+              "field": "Count",
+              "as": "Total count"
+            }
+          ],
+          "groupby": ["Year"]
+        }
+      ],
+
+      "mark": {
+        "type": "bar"
+      },
+
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal",
+          "axis": {
+            "labelAngle": -45,
+            "title": ""
+          }
+        },
+        "y": {
+          "field": "Total count",
+          "type": "quantitative",
+          "title": "Total",
+          "axis": {
+            "tickCount": 2,
+            "grid": false,
+            "labelExpr": "format(datum.value, ',.0f')"
+          }
+        },
+        "color": {
+          "condition": {
+            "param": "stage_year_brush",
+            "value": "#2f6f8f"
+          },
+          "value": "#9ab6c4"
+        },
+        "tooltip": [
+          {
+            "field": "Year",
+            "type": "ordinal",
+            "title": "Year"
+          },
+          {
+            "field": "Total count",
+            "type": "quantitative",
+            "title": "Total breeding records",
+            "format": ","
+          }
+        ]
+      }
+    }
+  ],
+
+  "spacing": 10
 }

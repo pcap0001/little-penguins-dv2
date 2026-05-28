@@ -1,33 +1,36 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 650,
-  "height": 450,
+  "width": 750,
+  "height": 480,
   "title": "Where Were Little Penguins Tracked?",
-"projection": {
-  "type": "mercator",
- "center": [144.88, -37.89],
-  "scale": 1800
-},
-  "layer": [
-   {
-  "data": {
-    "url": "https://pcap0001.github.io/little-penguins-dv2/data/southeast_australia.json",
-    "format": {
-      "type": "topojson",
-      "feature": "ne_10m_admin_0_countries"
-    }
+  "projection": {
+    "type": "mercator",
+    "center": [
+      146.5,
+      -38.5
+    ],
+    "scale": 2200
   },
-  "mark": {
-    "type": "geoshape",
-    "fill": "#e6eef2",
-    "stroke": "#9aa6ac",
-    "strokeWidth": 0.5
-  }
-},
+  "layer": [
     {
-"data": {
-  "url": "https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv"
-},
+      "data": {
+        "url": "https://pcap0001.github.io/little-penguins-dv2/data/southeast_australia.json",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_10m_admin_0_countries"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e6eef2",
+        "stroke": "#9aa6ac",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv"
+      },
       "mark": {
         "type": "circle",
         "size": 10,

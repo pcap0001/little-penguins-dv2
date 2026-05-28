@@ -1,7 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Tracking Records Over Time",
-
   "params": [
     {
       "name": "Include_NSW",
@@ -12,11 +11,9 @@
       }
     }
   ],
-
   "data": {
     "url": "https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv"
   },
-
   "transform": [
     {
       "filter": "isValid(datum.organismID)"
@@ -29,23 +26,22 @@
       "filter": "Include_NSW || datum.penguinID_num < 1000"
     }
   ],
-
   "vconcat": [
     {
-      "width": 650,
+      "width": "container",
       "height": 180,
       "title": "Tracking Records by Year - Click a Year to Filter the Month Chart",
-
       "params": [
         {
           "name": "year_pick",
           "select": {
             "type": "point",
-            "fields": ["year"]
+            "fields": [
+              "year"
+            ]
           }
         }
       ],
-
       "transform": [
         {
           "aggregate": [
@@ -54,7 +50,9 @@
               "as": "tracking_records"
             }
           ],
-          "groupby": ["year"]
+          "groupby": [
+            "year"
+          ]
         },
         {
           "window": [
@@ -71,19 +69,25 @@
           ]
         }
       ],
-
       "mark": {
         "type": "bar",
         "cornerRadiusTopLeft": 3,
         "cornerRadiusTopRight": 3
       },
-
       "encoding": {
         "x": {
           "field": "year",
           "type": "ordinal",
           "title": "Year",
-          "sort": ["2008", "2009", "2010", "2011", "2012", "2013", "2014"],
+          "sort": [
+            "2008",
+            "2009",
+            "2010",
+            "2011",
+            "2012",
+            "2013",
+            "2014"
+          ],
           "axis": {
             "labelAngle": 0
           }
@@ -123,12 +127,10 @@
         ]
       }
     },
-
     {
-      "width": 650,
+      "width": "container",
       "height": 180,
       "title": "Tracking Records by Month",
-
       "transform": [
         {
           "filter": {
@@ -143,22 +145,35 @@
               "as": "tracking_records"
             }
           ],
-          "groupby": ["month"]
+          "groupby": [
+            "month"
+          ]
         }
       ],
-
       "mark": {
         "type": "bar",
         "cornerRadiusTopLeft": 3,
         "cornerRadiusTopRight": 3
       },
-
       "encoding": {
         "x": {
           "field": "month",
           "type": "ordinal",
           "title": "Month",
-          "sort": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+          "sort": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12"
+          ],
           "axis": {
             "labelAngle": 0,
             "labelExpr": "datum.label == '01' ? 'Jan' : datum.label == '02' ? 'Feb' : datum.label == '03' ? 'Mar' : datum.label == '04' ? 'Apr' : datum.label == '05' ? 'May' : datum.label == '06' ? 'Jun' : datum.label == '07' ? 'Jul' : datum.label == '08' ? 'Aug' : datum.label == '09' ? 'Sep' : datum.label == '10' ? 'Oct' : datum.label == '11' ? 'Nov' : 'Dec'"
@@ -191,6 +206,5 @@
       }
     }
   ],
-
   "spacing": 30
 }
