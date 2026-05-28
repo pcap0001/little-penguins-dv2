@@ -114,7 +114,8 @@
         "range": [40, 700]
       },
       "legend": {
-        "format": ","
+        "format": ".0f",
+        "values": [50, 100, 150, 200, 250]
       }
     },
     "color": {
