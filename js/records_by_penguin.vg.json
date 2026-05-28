@@ -1,13 +1,18 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Tracking Records Over Time",
+  "width": 750,
+  "height": 450,
+  "title": "Most Tracked Little Penguins",
   "params": [
     {
-      "name": "Include_NSW",
-      "value": false,
+      "name": "Top_N",
+      "value": 10,
       "bind": {
-        "input": "checkbox",
-        "name": "Include NSW penguins "
+        "input": "range",
+        "min": 5,
+        "max": 39,
+        "step": 1,
+        "name": "Number of penguins shown: "
       }
     }
   ],
@@ -23,188 +28,94 @@
       "as": "penguinID_num"
     },
     {
-      "filter": "Include_NSW || datum.penguinID_num < 1000"
-    }
-  ],
-  "vconcat": [
-    {
-      "width": "container",
-      "height": 180,
-      "title": "Tracking Records by Year - Click a Year to Filter the Month Chart",
-      "params": [
-        {
-          "name": "year_pick",
-          "select": {
-            "type": "point",
-            "fields": [
-              "year"
-            ]
-          }
-        }
-      ],
-      "transform": [
-        {
-          "aggregate": [
-            {
-              "op": "count",
-              "as": "tracking_records"
-            }
-          ],
-          "groupby": [
-            "year"
-          ]
-        },
-        {
-          "window": [
-            {
-              "op": "rank",
-              "as": "rank"
-            }
-          ],
-          "sort": [
-            {
-              "field": "tracking_records",
-              "order": "descending"
-            }
-          ]
-        }
-      ],
-      "mark": {
-        "type": "bar",
-        "cornerRadiusTopLeft": 3,
-        "cornerRadiusTopRight": 3
-      },
-      "encoding": {
-        "x": {
-          "field": "year",
-          "type": "ordinal",
-          "title": "Year",
-          "sort": [
-            "2008",
-            "2009",
-            "2010",
-            "2011",
-            "2012",
-            "2013",
-            "2014"
-          ],
-          "axis": {
-            "labelAngle": 0
-          }
-        },
-        "y": {
-          "field": "tracking_records",
-          "type": "quantitative",
-          "title": "Number of tracking records",
-          "axis": {
-            "labelExpr": "format(datum.value, ',.0f')"
-          }
-        },
-        "color": {
-          "condition": {
-            "param": "year_pick",
-            "value": "#2f6f8f"
-          },
-          "value": "#9ab6c4"
-        },
-        "tooltip": [
-          {
-            "field": "year",
-            "type": "ordinal",
-            "title": "Year"
-          },
-          {
-            "field": "tracking_records",
-            "type": "quantitative",
-            "title": "Tracking records",
-            "format": ","
-          },
-          {
-            "field": "rank",
-            "type": "ordinal",
-            "title": "Rank"
-          }
-        ]
-      }
+      "filter": "datum.penguinID_num < 1000"
     },
     {
-      "width": "container",
-      "height": 180,
-      "title": "Tracking Records by Month",
-      "transform": [
+      "aggregate": [
         {
-          "filter": {
-            "param": "year_pick",
-            "empty": true
-          }
-        },
-        {
-          "aggregate": [
-            {
-              "op": "count",
-              "as": "tracking_records"
-            }
-          ],
-          "groupby": [
-            "month"
-          ]
+          "op": "count",
+          "as": "tracking_records"
         }
       ],
-      "mark": {
-        "type": "bar",
-        "cornerRadiusTopLeft": 3,
-        "cornerRadiusTopRight": 3
-      },
-      "encoding": {
-        "x": {
-          "field": "month",
-          "type": "ordinal",
-          "title": "Month",
-          "sort": [
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12"
-          ],
-          "axis": {
-            "labelAngle": 0,
-            "labelExpr": "datum.label == '01' ? 'Jan' : datum.label == '02' ? 'Feb' : datum.label == '03' ? 'Mar' : datum.label == '04' ? 'Apr' : datum.label == '05' ? 'May' : datum.label == '06' ? 'Jun' : datum.label == '07' ? 'Jul' : datum.label == '08' ? 'Aug' : datum.label == '09' ? 'Sep' : datum.label == '10' ? 'Oct' : datum.label == '11' ? 'Nov' : 'Dec'"
-          }
-        },
-        "y": {
+      "groupby": [
+        "organismID",
+        "penguinID_num"
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
           "field": "tracking_records",
-          "type": "quantitative",
-          "title": "Number of tracking records",
-          "axis": {
-            "labelExpr": "format(datum.value, ',.0f')"
-          }
-        },
-        "color": {
-          "value": "#2f6f8f"
-        },
-        "tooltip": [
-          {
-            "field": "month",
-            "type": "ordinal",
-            "title": "Month"
-          },
-          {
-            "field": "tracking_records",
-            "type": "quantitative",
-            "title": "Tracking records",
-            "format": ","
-          }
-        ]
-      }
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.rank <= Top_N"
     }
   ],
-  "spacing": 30
+  "mark": {
+    "type": "bar",
+    "cornerRadiusEnd": 3
+  },
+  "encoding": {
+    "y": {
+      "field": "organismID",
+      "type": "nominal",
+      "title": "Individual penguin ID",
+      "sort": {
+        "field": "tracking_records",
+        "order": "descending"
+      },
+      "axis": {
+        "labelLimit": 80
+      }
+    },
+    "x": {
+      "field": "tracking_records",
+      "type": "quantitative",
+      "title": "Number of tracking records",
+      "axis": {
+        "grid": true,
+        "tickCount": 8,
+        "labelExpr": "format(datum.value, ',.0f')"
+      }
+    },
+    "color": {
+      "condition": {
+        "test": "datum.rank <= 10",
+        "value": "#2f6f8f"
+      },
+      "value": "#9ab6c4"
+    },
+    "tooltip": [
+      {
+        "field": "rank",
+        "type": "ordinal",
+        "title": "Rank"
+      },
+      {
+        "field": "organismID",
+        "type": "nominal",
+        "title": "Penguin ID"
+      },
+      {
+        "field": "tracking_records",
+        "type": "quantitative",
+        "title": "Tracking records",
+        "format": ","
+      },
+      {
+        "field": "penguinID_num",
+        "type": "quantitative",
+        "title": "Numeric ID"
+      }
+    ]
+  }
 }

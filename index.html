@@ -20,6 +20,7 @@
       object-fit: cover;
       object-position: center;
       display: block;
+      border-radius: 16px 16px 0 0;
     }
 
     /* Two-column layout: text left, chart right */
@@ -29,14 +30,19 @@
       gap: 1.5rem;
     }
     .section-text {
-      flex: 0 0 160px;
+      flex: 0 0 190px;
       padding-top: 0.5rem;
       font-size: 0.9em;
     }
 
+.section-text p {
+  text-align: left;
+}
+
     .section-chart {
       flex: 1 1 0;
       min-width: 0;
+      overflow: hidden;
     }
 
     /* For charts that also have a legend beside them */
@@ -51,6 +57,83 @@
       flex: 1 1 0;
       min-width: 0;
     }
+       h1 { margin-top: 1rem; margin-bottom: 2.5rem; }
+
+    /* Page background */
+    body {
+      background-color: #dce8f0;
+      color: #2c3e6b;
+    }
+
+    /* Visualisation wrapper */
+    .vis-wrapper {
+      max-width: 1240px;
+      margin: 2rem auto;
+      background-color: #eef4f8;
+      border: 2px solid #a8c4d4;
+      border-radius: 18px;
+      padding-bottom: 2rem;
+    }
+
+    /* Explanation cards */
+    .explanation-card {
+      background-color: #ffffff;
+      border: 1.5px solid #a8c4d4;
+      border-radius: 14px;
+      padding: 1.8rem 2.5rem;
+      margin: 1.5rem 2rem;
+      text-align: center;
+    }
+    .explanation-card h2 {
+      font-size: 1.5em;
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+    }
+    .explanation-card h3 {
+      font-size: 1.1em;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+    }
+    .explanation-card p {
+      margin: 0 0 0.5rem;
+      font-size: 0.95em;
+    }
+    .stage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1rem;
+      text-align: left;
+    }
+
+    /* Section divider */
+    .section-divider {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
+    .section-divider h1 {
+      display: inline-block;
+      font-size: 2.8em;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      padding: 0.35em 1.5em;
+      border-top: 3px solid currentColor;
+      border-bottom: 3px solid currentColor;
+      margin: 0;
+    }
+  </style>
+
+  <!-- Leaflet for interactive penguin tracks map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    #penguin-leaflet-map, #penguin-overview-map, #colony-leaflet-map {
+      width: 100%;
+      height: 480px;
+      border-radius: 8px;
+      z-index: 0;
+    }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
@@ -60,23 +143,35 @@
 
 <body>
 
+  <div class="vis-wrapper">
+
   <!-- Hero image header -->
-  <div class="chart-section" style="padding: 0;">
-    <div class="hero-header">
-      <img src="Little_Penguins.png" alt="Little Penguins on a beach" />
+  <div class="explanation-card" style="padding: 0; overflow: hidden;">
+    <div class="hero-header" style="max-height:400px;">
+      <img src="Little_Penguins.png" alt="Little Penguins on a beach" style="width:100%; object-fit:cover; object-position:center; display:block; border-radius:14px;" />
     </div>
   </div>
 
-  <p class="intro-text">
-    This visualisation explores little penguin tracking and breeding data, showing where penguins travel and how breeding outcomes vary across colonies.
-  </p>
+  <div class="explanation-card">
+    <h2 style="margin:0;">Little penguins live in coastal colonies, travelling out to sea to feed before returning to land to rest, breed, and raise chicks. This visualisation uses tracking and breeding records to show where they move, when they are recorded, and how breeding outcomes vary across colonies.<h2>
+  </div>
+
+  <!-- ===== SECTION DIVIDER: TRACKING ===== -->
+  <div class="explanation-card" style="margin-top: 3rem;">
+    <h1 style="font-size: 2.8em; border-top: 3px solid currentColor; border-bottom: 3px solid currentColor; padding: 0.35em 1.5em; display: inline-block; letter-spacing: 0.05em; margin-bottom: 1rem;">How Little Penguins Live</h1>
+    <h2>Little penguins spend their lives between land and sea. They return to coastal colonies to rest and breed, but travel into nearby waters to feed. The following charts show when penguins were tracked, which individuals had the most records, and how their movements were concentrated around coastal areas.<h2>
+  </div>
 
   <!-- When were penguins tracked -->
   <div class="chart-section chart-section--wide">
-    <h2 style="text-align:center;">When were penguins tracked?</h2>
+    <h1 style="text-align:center;">When were penguins tracked?</h1>
       <div class="section-layout">
       <div class="section-text">
-        <p>The tracking dataset records little penguin locations across several years, with records concentrated in particular months.</p>
+        <p>
+This chart shows when the little penguin tracking records were collected. <br>
+The data was gathered in batches between 2008 and 2012, with some years and months sampled more heavily than others. <br>
+This helps show that the tracking dataset provides useful movement information, but its coverage is not evenly spread across time.
+        </p>
       </div>
       <div class="section-chart">
         <div id="records_by_time" style="width:100%;"></div>
@@ -86,10 +181,14 @@
 
   <!-- Which penguins tracked most -->
   <div class="chart-section chart-section--wide">
-    <h2 style="text-align:center;">Which penguins were tracked the most?</h2>
+    <h1 style="text-align:center;">Which penguins were tracked the most?</h1>
       <div class="section-layout">
       <div class="section-text">
-        <p>Each penguin was not recorded the same number of times. This chart ranks individual penguins by the number of location records in the tracking dataset.</p>
+        <p>Most penguins were tracked for only one day, with a small number tracked across two days.<br>
+          Across the dataset there were 39 individual penguins, but tracking intensity was uneven. <br>
+          The ten most-recorded penguins each had more than 900 location points, meaning their movement paths are much more detailed than others.
+        
+          </p>
       </div>
       <div class="section-chart">
         <div id="records_by_penguin" style="width:100%;"></div>
@@ -99,27 +198,28 @@
 
   <!-- Where did penguins travel -->
   <div class="chart-section chart-section--wide">
-    <h2 style="text-align:center;">Where did the tracked penguins travel?</h2>
+    <h1 style="text-align:center;">Where did the tracked penguins travel?</h1>
       <div class="section-layout">
       <div class="section-text">
         <p>Each point represents a recorded little penguin location. The tracking records show how movement is concentrated around coastal waters rather than spread evenly across Australia.</p>
-        <p>The majority of sightings cluster tightly around the Phillip Island and Flinders Island regions — known colonies and foraging grounds. Occasional records extend further along the Victorian and South Australian coastlines, reflecting longer foraging excursions.</p>
+        <p>The majority of records cluster tightly around the St Kilda colony in Port Phillip Bay. A smaller group of records appears near Montague Island on the NSW south coast. Scroll to zoom and drag to explore the coastline.</p>
       </div>
       <div class="section-chart">
-        <div id="penguin_tracking_map" style="width:100%;"></div>
+        <div id="penguin-overview-map"></div>
       </div>
     </div>
   </div>
 
   <!-- How did individual penguins move -->
   <div class="chart-section chart-section--wide">
-    <h2 style="text-align:center;">How did individual penguins move?</h2>
+    <h1 style="text-align:center;">How did individual penguins move?</h1>
       <div class="section-layout">
       <div class="section-text">
-        <p>This map connects location records for selected penguins, showing that individual movement paths can differ even within the same tracking dataset. Use the checkboxes to show or hide individual penguins.</p>
+        <p>This map shows the at-sea foraging movements of tracked penguins from the St Kilda colony. Lines ending near the shore represent penguins returning to their nesting site on the St Kilda breakwater.</p>
+        <p>Individual movement paths differ even within the same colony. Use the checkboxes to show or hide individual penguins. Scroll to zoom, drag to pan.</p>
       </div>
       <div class="section-chart-with-legend">
-        <div id="penguin_tracks_map" style="width:100%;"></div>
+        <div id="penguin-leaflet-map"></div>
         <div class="colony-control">
           <div class="colony-legend-title">Penguin ID</div>
           <label class="select-all-option"><input type="checkbox" id="selectAllPenguins" checked> Select all</label>
@@ -139,12 +239,77 @@
     </div>
   </div>
 
-  <!-- Breeding outcomes over time -->
+<!-- ===== SECTION DIVIDER: BREEDING ===== -->
+<div class="explanation-card" style="margin-top: 3rem;">
+  <h1 style="font-size: 2.8em; border-top: 3px solid currentColor; border-bottom: 3px solid currentColor; padding: 0.35em 1.5em; display: inline-block; letter-spacing: 0.05em; margin-bottom: 1rem;">Returning to land: Breeding &amp; Survival</h1>
+  <p>
+    Little penguins return to coastal colonies to breed and raise chicks. This section uses records from ten South Australian colonies between 1990 and 2018 to compare breeding timing, chick survival, and colony outcomes.
+  </p>
+</div>
+
+  <!-- Where are the SA colonies -->
   <div class="chart-section chart-section--wide">
-    <h2 style="text-align:center;">How have breeding outcomes changed across colonies?</h2>
+    <h1 style="text-align:center;">Where are the ten colonies?</h1>
+    <div class="section-layout">
+      <div class="section-text">
+        <p>The ten monitored colonies are spread across Kangaroo Island and the nearby South Australian coast. Most sit on the island's sheltered north coast or its eastern tip, with Granite Island and West Island located on the Fleurieu Peninsula, and Troubridge Island further north in Gulf St Vincent.</p>
+        <p>Scroll to zoom and drag to explore. Click a marker to see the colony name.</p>
+      </div>
+      <div class="section-chart">
+        <div id="colony-leaflet-map"></div>
+      </div>
+    </div>
+  </div>
+
+<div class="explanation-card">
+  <h2>Eggs, Nestlings and Fledglings</h2>
+
+  <div class="stage-grid">
+    <div>
+      <h3>Eggs</h3>
+      <p>
+        Eggs are the starting point of the breeding cycle. A higher egg count shows more breeding attempts, but it does not mean all chicks survive.
+      </p>
+    </div>
+
+    <div>
+      <h3>Nestlings</h3>
+      <p>
+        Nestlings are chicks that have hatched and are still being raised in the nest. This stage shows how many eggs progressed into young chicks.
+      </p>
+    </div>
+
+    <div>
+      <h3>Fledglings</h3>
+      <p>
+        Fledglings are young penguins that have grown enough to leave the nest. This is the strongest outcome measure because it shows how many chicks reached the stage where they could survive beyond the nest.
+      </p>
+    </div>
+  </div>
+</div>
+
+  <!-- 1. When does breeding happen -->
+  <div class="chart-section chart-section--wide">
+    <h1 style="text-align:center;">When does breeding happen across colonies?</h1>
       <div class="section-layout">
       <div class="section-text">
-        <p>The Flinders breeding data tracks little penguin colonies over time. This chart compares the number of fledglings recorded across colonies and years. Use the checkboxes to show or hide colonies, and drag the bar chart below to zoom into a year range.</p>
+        <p>Little penguins do not all breed at the same time. <br>
+          This chart shows the recorded start and end of breeding seasons across the South Australian colonies, revealing that breeding timing varies between colonies</p>
+      </div>
+      <div class="section-chart">
+        <div id="breeding_season_timing" style="width:100%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Breeding outcomes over time -->
+  <div class="chart-section chart-section--wide">
+    <h1 style="text-align:center;">How have breeding outcomes changed across colonies?</h1>
+      <div class="section-layout">
+      <div class="section-text">
+        <p>This chart shows how fledgling numbers changed across South Australian colonies over time.<br>
+Troubridge Island stands out with a peak of 122 fledglings, while other colonies show smaller or more irregular patterns. <br>
+          The checkboxes allow colonies to be compared individually, and the lower bar chart can be dragged to focus on a smaller year range.</p>
       </div>
       <div class="section-chart-with-legend">
         <div id="fledglings_over_time" style="width:100%;"></div>
@@ -167,33 +332,14 @@
     </div>
   </div>
 
-  <!-- Breeding stages -->
+  <!-- 3. Breeding success heatmap -->
   <div class="chart-section chart-section--wide">
-    <h2 style="text-align:center;">How many eggs become fledglings?</h2>
+    <h1 style="text-align:center;">Which colony-years had stronger breeding success?</h1>
       <div class="section-layout">
       <div class="section-text">
-        <p>Breeding records can be read as a sequence from eggs to nestlings to fledglings. Comparing these stages helps show that not every egg becomes a surviving fledgling.</p>
-      </div>
-      <div class="section-chart-with-legend">
-        <div id="breeding_stages_by_year" style="width:100%;"></div>
-        <div class="colony-control">
-          <div class="colony-legend-title">Breeding stage</div>
-          <label class="select-all-option"><input type="checkbox" id="selectAllStages" checked> Select all</label>
-          <hr>
-          <label><span class="colony-dot" style="background:#9ecae1;"></span><input type="checkbox" id="showEggs" checked> Eggs</label>
-          <label><span class="colony-dot" style="background:#225ea8;"></span><input type="checkbox" id="showNestlings" checked> Nestlings</label>
-          <label><span class="colony-dot" style="background:#4292c6;"></span><input type="checkbox" id="showFledglings" checked> Fledglings</label>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Breeding success heatmap -->
-  <div class="chart-section chart-section--wide">
-    <h2 style="text-align:center;">Which colony-years had stronger breeding success?</h2>
-      <div class="section-layout">
-      <div class="section-text">
-        <p>This heatmap compares breeding success across colonies and years. Darker cells indicate years where a higher share of recorded eggs became fledglings.</p>
+        <p>This strip plot shows fledgling success for each colony-year. <br>
+          Each dot is one year of data, and the black tick marks show each colony’s average fledglings per egg. <br>
+          The wide spread of points shows that breeding success varies both between colonies and from year to year.</p>
       </div>
       <div class="section-chart-with-legend">
         <div id="breeding_success_heatmap" style="width:100%;"></div>
@@ -216,59 +362,64 @@
     </div>
   </div>
 
-  <!-- SST vs fledglings -->
+  <!-- 4. Eggs to fledglings -->
   <div class="chart-section chart-section--wide">
-    <h2 style="text-align:center;">Do warmer sea conditions align with breeding outcomes?</h2>
+    <h1 style="text-align:center;">How many eggs become fledglings?</h1>
       <div class="section-layout">
       <div class="section-text">
-        <p>Little penguins depend on nearby marine food sources. This scatterplot compares sea surface temperature with the number of fledglings recorded for each colony-year.</p>
+        <p>Breeding records can be read as a progression from eggs to nestlings to fledglings. <br>
+          Across most years, egg counts are higher than fledgling counts, showing that not every breeding attempt results in a chick successfully leaving the nest.
+          Comparing the three stages helps show where numbers reduce through the breeding cycle.</p>
       </div>
       <div class="section-chart-with-legend">
-        <div id="sst_vs_fledglings" style="width:100%;"></div>
+        <div id="breeding_stages_by_year" style="width:100%;"></div>
         <div class="colony-control">
-          <div class="colony-legend-title">Colony</div>
-          <label class="select-all-option"><input type="checkbox" id="selectAllSSTColonies" checked> Select all</label>
+          <div class="colony-legend-title">Breeding stage</div>
+          <label class="select-all-option"><input type="checkbox" id="selectAllStages" checked> Select all</label>
           <hr>
-          <label><span class="colony-dot" style="background:#4e79a7;"></span><input type="checkbox" id="sstShowAntechamberBay" checked> Antechamber Bay</label>
-          <label><span class="colony-dot" style="background:#f28e2b;"></span><input type="checkbox" id="sstShowBrownlow" checked> Brownlow</label>
-          <label><span class="colony-dot" style="background:#e15759;"></span><input type="checkbox" id="sstShowEmuBay" checked> Emu Bay</label>
-          <label><span class="colony-dot" style="background:#76b7b2;"></span><input type="checkbox" id="sstShowGraniteIsland" checked> Granite Island</label>
-          <label><span class="colony-dot" style="background:#59a14f;"></span><input type="checkbox" id="sstShowKingscote" checked> Kingscote</label>
-          <label><span class="colony-dot" style="background:#edc948;"></span><input type="checkbox" id="sstShowNepeanPines" checked> Nepean Pines</label>
-          <label><span class="colony-dot" style="background:#b07aa1;"></span><input type="checkbox" id="sstShowPenneshaw" checked> Penneshaw</label>
-          <label><span class="colony-dot" style="background:#ff9da7;"></span><input type="checkbox" id="sstShowTroubridge" checked> Troubridge Island</label>
-          <label><span class="colony-dot" style="background:#9c755f;"></span><input type="checkbox" id="sstShowVivonneBay" checked> Vivonne Bay</label>
-          <label><span class="colony-dot" style="background:#bab0ac;"></span><input type="checkbox" id="sstShowWestIsland" checked> West Island</label>
+          <label><span class="colony-dot" style="background:#9ecae1;"></span><input type="checkbox" id="showEggs" checked> Eggs</label>
+          <label><span class="colony-dot" style="background:#225ea8;"></span><input type="checkbox" id="showNestlings" checked> Nestlings</label>
+          <label><span class="colony-dot" style="background:#4292c6;"></span><input type="checkbox" id="showFledglings" checked> Fledglings</label>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Breeding season timing -->
+  <!-- 5. Weather vs fledglings -->
   <div class="chart-section chart-section--wide">
-    <h2 style="text-align:center;">When does breeding happen across colonies?</h2>
+    <h1 style="text-align:center;">Do weather conditions align with fledgling outcomes?</h1>
       <div class="section-layout">
       <div class="section-text">
-        <p>Breeding timing varies between colonies and years. This timeline-style chart shows the recorded start and end of the breeding season for each colony-year.</p>
-      </div>
-      <div class="section-chart">
-        <div id="breeding_season_timing" style="width:100%;"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Weather vs fledglings -->
-  <div class="chart-section chart-section--wide">
-    <h2 style="text-align:center;">Do weather conditions align with fledgling outcomes?</h2>
-      <div class="section-layout">
-      <div class="section-text">
-        <p>This chart compares fledgling counts with selected weather conditions. Use the dropdown to switch between wind speed, rainfall, hot days, and sea surface temperature. The chart shows association, not proof of causation.</p>
+        <p>This chart compares fledgling counts with wind speed and rainfall. <br>
+          Each point represents a colony-year, with larger circles showing years where more eggs were recorded. <br>
+          The points are widely scattered, suggesting there is no clear relationship between these weather conditions and fledgling numbers in this dataset.</p>
       </div>
       <div class="section-chart">
         <div id="weather_vs_fledglings" style="width:100%;"></div>
       </div>
     </div>
   </div>
+
+  <!-- 6. Heat stress heatmap -->
+  <div class="chart-section chart-section--wide">
+    <h1 style="text-align:center;">Which colonies experienced the most heat stress?</h1>
+    <div class="section-layout">
+      <div class="section-text">
+        <p>Little penguins are vulnerable to heat stress during the breeding season. This heatmap shows the number of days over 30°C recorded for each colony and year. Darker cells indicate more extreme heat. The white dots show fledgling rate — larger dots mean more eggs became fledglings.</p>
+      </div>
+      <div class="section-chart">
+        <div id="heat_stress_heatmap" style="width:100%;"></div>
+        <div style="margin-top:0.75rem; padding: 0 0.5rem;">
+          <label style="font-size:0.85em; display:block; margin-bottom:0.3rem;">From: <strong id="yearMinLabel">2008</strong></label>
+          <input type="range" id="yearMinSlider" min="1990" max="2017" value="2008" step="1" style="width:100%;">
+          <label style="font-size:0.85em; display:block; margin-top:0.5rem; margin-bottom:0.3rem;">To: <strong id="yearMaxLabel">2017</strong></label>
+          <input type="range" id="yearMaxSlider" min="1990" max="2017" value="2017" step="1" style="width:100%;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div> <!-- end .vis-wrapper -->
 
   <script src="js/vega_lite_vis.js"></script>
 

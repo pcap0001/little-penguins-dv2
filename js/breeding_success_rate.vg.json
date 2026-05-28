@@ -1,0 +1,102 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "autosize": {"type": "fit", "contains": "padding"},
+  "height": 400,
+  "title": "Fledgling Success Rate by Colony",
+  "data": {
+    "url": "https://pcap0001.github.io/little-penguins-dv2/data/colony_breeding.csv"
+  },
+  "params": [
+    { "name": "heatAntechamberBay", "value": true },
+    { "name": "heatBrownlow",       "value": true },
+    { "name": "heatEmuBay",         "value": true },
+    { "name": "heatGraniteIsland",  "value": true },
+    { "name": "heatKingscote",      "value": true },
+    { "name": "heatNepeanPines",    "value": true },
+    { "name": "heatPenneshaw",      "value": true },
+    { "name": "heatTroubridge",     "value": true },
+    { "name": "heatVivonneBay",     "value": true },
+    { "name": "heatWestIsland",     "value": true }
+  ],
+  "transform": [
+    {
+      "calculate": "datum['Number of eggs'] > 0 ? datum['Number of fledglings'] / datum['Number of eggs'] : null",
+      "as": "fledgling_rate"
+    },
+    { "filter": "isValid(datum.fledgling_rate)" },
+    {
+      "filter": "(datum.Colony === 'Antechamber Bay'   && heatAntechamberBay) || (datum.Colony === 'Brownlow'          && heatBrownlow)      || (datum.Colony === 'Emu Bay'           && heatEmuBay)        || (datum.Colony === 'Granite Island'    && heatGraniteIsland) || (datum.Colony === 'Kingscote'         && heatKingscote)     || (datum.Colony === 'Nepean Pines'      && heatNepeanPines)   || (datum.Colony === 'Penneshaw'         && heatPenneshaw)     || (datum.Colony === 'Troubridge Island' && heatTroubridge)    || (datum.Colony === 'Vivonne Bay'       && heatVivonneBay)    || (datum.Colony === 'West Island'       && heatWestIsland)"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "size": 80,
+        "opacity": 0.75
+      },
+      "encoding": {
+        "y": {
+          "field": "Colony",
+          "type": "nominal",
+          "title": "Colony",
+          "sort": {
+            "op": "mean",
+            "field": "fledgling_rate",
+            "order": "descending"
+          }
+        },
+        "x": {
+          "field": "fledgling_rate",
+          "type": "quantitative",
+          "title": "Fledglings per egg",
+          "axis": {
+            "format": ".0%"
+          },
+          "scale": {
+            "domain": [0, 1]
+          }
+        },
+        "color": {
+          "field": "Colony",
+          "type": "nominal",
+          "legend": null
+        },
+        "tooltip": [
+          { "field": "Colony",               "type": "nominal",      "title": "Colony" },
+          { "field": "Year",                 "type": "ordinal",      "title": "Year" },
+          { "field": "Number of eggs",       "type": "quantitative", "title": "Eggs" },
+          { "field": "Number of nestlings",  "type": "quantitative", "title": "Nestlings" },
+          { "field": "Number of fledglings", "type": "quantitative", "title": "Fledglings" },
+          { "field": "fledgling_rate",       "type": "quantitative", "title": "Fledgling rate", "format": ".1%" }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "tick",
+        "color": "#333",
+        "size": 18,
+        "thickness": 3,
+        "opacity": 1
+      },
+      "encoding": {
+        "y": {
+          "field": "Colony",
+          "type": "nominal",
+          "sort": {
+            "op": "mean",
+            "field": "fledgling_rate",
+            "order": "descending"
+          }
+        },
+        "x": {
+          "aggregate": "mean",
+          "field": "fledgling_rate",
+          "type": "quantitative"
+        }
+      }
+    }
+  ]
+}

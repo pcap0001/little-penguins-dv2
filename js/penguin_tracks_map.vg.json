@@ -3,26 +3,69 @@
     "width": 620,
     "height": 480,
     "title": "Recorded Movement of Tracked Little Penguins",
-
     "params": [
-        { "name": "show237", "value": true },
-        { "name": "show360", "value": true },
-        { "name": "show251", "value": true },
-        { "name": "show364", "value": true },
-        { "name": "show250", "value": true },
-        { "name": "show252", "value": true },
-        { "name": "show243", "value": true },
-        { "name": "show248", "value": true },
-        { "name": "show366", "value": true },
-        { "name": "show361", "value": true }
+        {
+            "name": "show237",
+            "value": true
+        },
+        {
+            "name": "show360",
+            "value": true
+        },
+        {
+            "name": "show251",
+            "value": true
+        },
+        {
+            "name": "show364",
+            "value": true
+        },
+        {
+            "name": "show250",
+            "value": true
+        },
+        {
+            "name": "show252",
+            "value": true
+        },
+        {
+            "name": "show243",
+            "value": true
+        },
+        {
+            "name": "show248",
+            "value": true
+        },
+        {
+            "name": "show366",
+            "value": true
+        },
+        {
+            "name": "show361",
+            "value": true
+        },
+        {
+            "name": "zoom_level",
+            "value": 60000,
+            "bind": {
+                "input": "range",
+                "min": 10000,
+                "max": 200000,
+                "step": 1000,
+                "name": "Zoom: "
+            }
+        }
     ],
-
     "projection": {
         "type": "mercator",
-        "center": [144.9, -38],
-        "scale": 60000
+        "center": [
+            144.9,
+            -38
+        ],
+        "scale": {
+            "expr": "zoom_level"
+        }
     },
-
     "layer": [
         {
             "data": {
@@ -51,12 +94,18 @@
                     "calculate": "toDate(datum.eventDate)",
                     "as": "eventDateTime"
                 },
-                { "filter": "toNumber(datum.organismID) < 1000" },
+                {
+                    "filter": "toNumber(datum.organismID) < 1000"
+                },
                 {
                     "filter": "(show237 && datum.organismID == '237') || (show360 && datum.organismID == '360') || (show251 && datum.organismID == '251') || (show364 && datum.organismID == '364') || (show250 && datum.organismID == '250') || (show252 && datum.organismID == '252') || (show243 && datum.organismID == '243') || (show248 && datum.organismID == '248') || (show366 && datum.organismID == '366') || (show361 && datum.organismID == '361')"
                 }
             ],
-            "mark": { "type": "line", "strokeWidth": 1.2, "opacity": 0.45 },
+            "mark": {
+                "type": "line",
+                "strokeWidth": 1.2,
+                "opacity": 0.45
+            },
             "encoding": {
                 "longitude": {
                     "field": "decimalLongitude",
@@ -66,18 +115,46 @@
                     "field": "decimalLatitude",
                     "type": "quantitative"
                 },
-                "detail": { "field": "organismID", "type": "nominal" },
+                "detail": {
+                    "field": "organismID",
+                    "type": "nominal"
+                },
                 "color": {
-  "field": "organismID",
-  "type": "nominal",
-  "title": "Penguin ID",
-  "legend": null,
-  "scale": {
-    "domain": ["237", "243", "248", "250", "251", "252", "360", "361", "364", "366"],
-    "range":  ["#4c78a8", "#f58518", "#e45756", "#72b7b2", "#54a24b", "#eeca3b", "#b279a2", "#ff9da6", "#9d755d", "#bab0ac"]
-  }
-},
-                "order": { "field": "eventDateTime", "type": "temporal" }
+                    "field": "organismID",
+                    "type": "nominal",
+                    "title": "Penguin ID",
+                    "legend": null,
+                    "scale": {
+                        "domain": [
+                            "237",
+                            "243",
+                            "248",
+                            "250",
+                            "251",
+                            "252",
+                            "360",
+                            "361",
+                            "364",
+                            "366"
+                        ],
+                        "range": [
+                            "#4c78a8",
+                            "#f58518",
+                            "#e45756",
+                            "#72b7b2",
+                            "#54a24b",
+                            "#eeca3b",
+                            "#b279a2",
+                            "#ff9da6",
+                            "#9d755d",
+                            "#bab0ac"
+                        ]
+                    }
+                },
+                "order": {
+                    "field": "eventDateTime",
+                    "type": "temporal"
+                }
             }
         },
         {
@@ -92,12 +169,18 @@
                     "calculate": "toDate(datum.eventDate)",
                     "as": "eventDateTime"
                 },
-                { "filter": "toNumber(datum.organismID) < 1000" },
+                {
+                    "filter": "toNumber(datum.organismID) < 1000"
+                },
                 {
                     "filter": "(show237 && datum.organismID == '237') || (show360 && datum.organismID == '360') || (show251 && datum.organismID == '251') || (show364 && datum.organismID == '364') || (show250 && datum.organismID == '250') || (show252 && datum.organismID == '252') || (show243 && datum.organismID == '243') || (show248 && datum.organismID == '248') || (show366 && datum.organismID == '366') || (show361 && datum.organismID == '361')"
                 }
             ],
-            "mark": { "type": "circle", "size": 10, "opacity": 0.5 },
+            "mark": {
+                "type": "circle",
+                "size": 10,
+                "opacity": 0.5
+            },
             "encoding": {
                 "longitude": {
                     "field": "decimalLongitude",
@@ -107,16 +190,38 @@
                     "field": "decimalLatitude",
                     "type": "quantitative"
                 },
-"color": {
-  "field": "organismID",
-  "type": "nominal",
-  "title": "Penguin ID",
-  "legend": null,
-  "scale": {
-    "domain": ["237", "243", "248", "250", "251", "252", "360", "361", "364", "366"],
-    "range":  ["#4c78a8", "#f58518", "#e45756", "#72b7b2", "#54a24b", "#eeca3b", "#b279a2", "#ff9da6", "#9d755d", "#bab0ac"]
-  }
-},
+                "color": {
+                    "field": "organismID",
+                    "type": "nominal",
+                    "title": "Penguin ID",
+                    "legend": null,
+                    "scale": {
+                        "domain": [
+                            "237",
+                            "243",
+                            "248",
+                            "250",
+                            "251",
+                            "252",
+                            "360",
+                            "361",
+                            "364",
+                            "366"
+                        ],
+                        "range": [
+                            "#4c78a8",
+                            "#f58518",
+                            "#e45756",
+                            "#72b7b2",
+                            "#54a24b",
+                            "#eeca3b",
+                            "#b279a2",
+                            "#ff9da6",
+                            "#9d755d",
+                            "#bab0ac"
+                        ]
+                    }
+                },
                 "tooltip": [
                     {
                         "field": "organismID",

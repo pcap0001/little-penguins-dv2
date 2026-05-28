@@ -1,8 +1,21 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 650,
+  "width": "container",
   "height": 400,
   "title": "Breeding Season Timing by Colony",
+  "autosize": {"type": "fit", "contains": "padding"},
+  "params": [
+    { "name": "timingAntechamberBay", "value": true },
+    { "name": "timingBrownlow",       "value": true },
+    { "name": "timingEmuBay",         "value": true },
+    { "name": "timingGraniteIsland",  "value": true },
+    { "name": "timingKingscote",      "value": true },
+    { "name": "timingNepeanPines",    "value": true },
+    { "name": "timingPenneshaw",      "value": true },
+    { "name": "timingTroubridge",     "value": true },
+    { "name": "timingVivonneBay",     "value": true },
+    { "name": "timingWestIsland",     "value": true }
+  ],
   "data": {
     "url": "https://pcap0001.github.io/little-penguins-dv2/data/colony_breeding.csv"
   },
@@ -21,6 +34,9 @@
     },
     {
       "filter": "datum.start_month_num > 0 && datum.end_month_num > 0"
+    },
+    {
+      "filter": "(timingAntechamberBay && datum.Colony == 'Antechamber Bay') || (timingBrownlow && datum.Colony == 'Brownlow') || (timingEmuBay && datum.Colony == 'Emu Bay') || (timingGraniteIsland && datum.Colony == 'Granite Island') || (timingKingscote && datum.Colony == 'Kingscote') || (timingNepeanPines && datum.Colony == 'Nepean Pines') || (timingPenneshaw && datum.Colony == 'Penneshaw') || (timingTroubridge && datum.Colony == 'Troubridge Island') || (timingVivonneBay && datum.Colony == 'Vivonne Bay') || (timingWestIsland && datum.Colony == 'West Island')"
     }
   ],
   "mark": {
@@ -38,43 +54,27 @@
       "field": "start_month_num",
       "type": "quantitative",
       "title": "Breeding season timing",
-      "scale": {
-        "domain": [1, 14]
-      },
+      "scale": { "domain": [1, 15] },
       "axis": {
-        "values": [1, 3, 5, 7, 9, 11, 13],
-        "labelExpr": "datum.value == 1 ? 'Jan' : datum.value == 3 ? 'Mar' : datum.value == 5 ? 'May' : datum.value == 7 ? 'Jul' : datum.value == 9 ? 'Sep' : datum.value == 11 ? 'Nov' : 'Jan'"
+        "values": [1, 3, 5, 7, 9, 11, 13, 15],
+        "labelExpr": "datum.value == 1 ? 'Jan' : datum.value == 3 ? 'Mar' : datum.value == 5 ? 'May' : datum.value == 7 ? 'Jul' : datum.value == 9 ? 'Sep' : datum.value == 11 ? 'Nov' : datum.value == 13 ? 'Jan' : 'Mar'"
       }
     },
-    "x2": {
-      "field": "end_month_num"
-    },
+    "x2": { "field": "end_month_num" },
     "color": {
       "field": "Colony",
       "type": "nominal",
-      "legend": null
+      "legend": null,
+      "scale": {
+        "domain": ["Antechamber Bay","Brownlow","Emu Bay","Granite Island","Kingscote","Nepean Pines","Penneshaw","Troubridge Island","Vivonne Bay","West Island"],
+        "range": ["#4e79a7","#f28e2b","#e15759","#76b7b2","#59a14f","#edc948","#b07aa1","#ff9da7","#9c755f","#bab0ac"]
+      }
     },
     "tooltip": [
-      {
-        "field": "Colony",
-        "type": "nominal",
-        "title": "Colony"
-      },
-      {
-        "field": "Year",
-        "type": "ordinal",
-        "title": "Year"
-      },
-      {
-        "field": "Start breeding",
-        "type": "nominal",
-        "title": "Start breeding"
-      },
-      {
-        "field": "End breeding",
-        "type": "nominal",
-        "title": "End breeding"
-      }
+      { "field": "Colony",         "type": "nominal", "title": "Colony" },
+      { "field": "Year",           "type": "ordinal",  "title": "Year" },
+      { "field": "Start breeding", "type": "nominal",  "title": "Start" },
+      { "field": "End breeding",   "type": "nominal",  "title": "End" }
     ]
   }
 }

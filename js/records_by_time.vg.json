@@ -1,36 +1,29 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Tracking Records Over Time",
-  "params": [
-    {
-      "name": "Include_NSW",
-      "value": false,
-      "bind": {
-        "input": "checkbox",
-        "name": "Include NSW penguins "
-      }
-    }
-  ],
+
   "data": {
     "url": "https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv"
   },
   "transform": [
     {
-      "filter": "isValid(datum.organismID)"
-    },
+      "filter": "isValid(datum.organismID)"},
     {
       "calculate": "toNumber(datum.organismID)",
       "as": "penguinID_num"
-    },
-    {
-      "filter": "Include_NSW || datum.penguinID_num < 1000"
-    }
+    }, {"filter": "datum.year !=2014"}
   ],
   "vconcat": [
     {
       "width": "container",
       "height": 180,
-      "title": "Tracking Records by Year - Click a Year to Filter the Month Chart",
+"title": {
+  "text": "Tracking Records by Year",
+  "subtitle": "Click a year to filter the month chart, double click to select all",
+  "anchor": "middle",
+  "fontSize": 14,
+  "subtitleFontSize": 11,
+  "subtitleColor": "#666"
+},
       "params": [
         {
           "name": "year_pick",
@@ -85,8 +78,7 @@
             "2010",
             "2011",
             "2012",
-            "2013",
-            "2014"
+            "2013"
           ],
           "axis": {
             "labelAngle": 0

@@ -68,10 +68,7 @@
         "range": [30, 700],
         "zero": false
       },
-      "legend": {
-        "format": "d",
-        "values": [50, 100, 150, 200, 250]
-      }
+      "legend": null
     },
     "color": {
       "field": "Colony",

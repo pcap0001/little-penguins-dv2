@@ -1,0 +1,96 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "autosize": {"type": "fit", "contains": "padding"},
+  "height": 320,
+  "title": "Heat Stress and Fledgling Success Across Colonies by Year",
+  "data": {
+    "url": "https://pcap0001.github.io/little-penguins-dv2/data/colony_breeding.csv"
+  },
+  "params": [
+    { "name": "yearMin", "value": 2008 },
+    { "name": "yearMax", "value": 2017 }
+  ],
+  "transform": [
+    { "filter": "isValid(datum['Number of days over 30C'])" },
+    { "filter": "datum.Year >= yearMin && datum.Year <= yearMax" },
+    {
+      "calculate": "datum['Number of eggs'] > 0 ? datum['Number of fledglings'] / datum['Number of eggs'] : null",
+      "as": "fledgling_rate"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "stroke": "#eef4f8",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal",
+          "title": "Year",
+          "axis": { "labelAngle": -45 }
+        },
+        "y": {
+          "field": "Colony",
+          "type": "nominal",
+          "title": "Colony",
+          "sort": ["Troubridge Island", "Granite Island", "Kingscote", "Brownlow", "Nepean Pines", "Emu Bay", "Antechamber Bay", "Penneshaw", "Vivonne Bay", "West Island"]
+        },
+        "color": {
+          "field": "Number of days over 30C",
+          "type": "quantitative",
+          "scale": { "scheme": "orangered", "domain": [0, 32] },
+          "legend": { "title": "Days over 30°C", "gradientLength": 150 }
+        },
+        "tooltip": [
+          { "field": "Colony",                  "type": "nominal",      "title": "Colony" },
+          { "field": "Year",                    "type": "ordinal",      "title": "Year" },
+          { "field": "Number of days over 30C", "type": "quantitative", "title": "Days over 30°C" },
+          { "field": "Number of fledglings",    "type": "quantitative", "title": "Fledglings" },
+          { "field": "Number of eggs",          "type": "quantitative", "title": "Eggs" },
+          { "field": "fledgling_rate",          "type": "quantitative", "title": "Fledgling rate", "format": ".0%" }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "stroke": "black",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "Colony",
+          "type": "nominal",
+          "sort": ["Troubridge Island", "Granite Island", "Kingscote", "Brownlow", "Nepean Pines", "Emu Bay", "Antechamber Bay", "Penneshaw", "Vivonne Bay", "West Island"]
+        },
+        "size": {
+          "field": "fledgling_rate",
+          "type": "quantitative",
+          "scale": { "domain": [0, 1], "range": [0, 280] },
+          "legend": { "title": "Fledgling rate", "format": ".0%", "values": [0.25, 0.5, 0.75, 1.0] }
+        },
+        "color": { "value": "white" },
+        "opacity": {
+          "condition": { "test": "isValid(datum.fledgling_rate)", "value": 0.85 },
+          "value": 0
+        },
+        "tooltip": [
+          { "field": "Colony",                  "type": "nominal",      "title": "Colony" },
+          { "field": "Year",                    "type": "ordinal",      "title": "Year" },
+          { "field": "Number of days over 30C", "type": "quantitative", "title": "Days over 30°C" },
+          { "field": "Number of fledglings",    "type": "quantitative", "title": "Fledglings" },
+          { "field": "Number of eggs",          "type": "quantitative", "title": "Eggs" },
+          { "field": "fledgling_rate",          "type": "quantitative", "title": "Fledgling rate", "format": ".0%" }
+        ]
+      }
+    }
+  ]
+}
