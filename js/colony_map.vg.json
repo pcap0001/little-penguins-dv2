@@ -244,7 +244,6 @@
       },
       "mark": {
         "type": "text",
-        "dy": -12,
         "fontSize": 11,
         "fontWeight": "bold",
         "color": "#1a2a4a"
@@ -261,8 +260,26 @@
         "text": {
           "field": "colony",
           "type": "nominal"
+        },
+        "dx": {
+          "field": "label_dx",
+          "type": "quantitative"
+        },
+        "dy": {
+          "field": "label_dy",
+          "type": "quantitative"
         }
-      }
+      },
+      "transform": [
+        {
+          "calculate": "({'Antechamber Bay': 8, 'Brownlow': -55, 'Emu Bay': 0, 'Granite Island': 8, 'Kingscote': 42, 'Nepean Pines': 48, 'Penneshaw': 8, 'Troubridge Island': 8, 'Vivonne Bay': 0, 'West Island': 8})[datum.colony]",
+          "as": "label_dx"
+        },
+        {
+          "calculate": "({'Antechamber Bay': -12, 'Brownlow': -12, 'Emu Bay': -12, 'Granite Island': -12, 'Kingscote': 0, 'Nepean Pines': 12, 'Penneshaw': -12, 'Troubridge Island': -12, 'Vivonne Bay': -12, 'West Island': -12})[datum.colony]",
+          "as": "label_dy"
+        }
+      ]
     }
   ]
 }

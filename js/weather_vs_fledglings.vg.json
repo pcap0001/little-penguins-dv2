@@ -10,14 +10,8 @@
       "value": "wind",
       "bind": {
         "input": "select",
-        "options": [
-          "wind",
-          "rainfall"
-        ],
-        "labels": [
-          "Wind speed",
-          "Rainfall"
-        ],
+        "options": ["wind", "rainfall"],
+        "labels": ["Wind speed", "Rainfall"],
         "name": "Weather variable: "
       }
     },
@@ -28,29 +22,15 @@
         "input": "select",
         "options": [
           null,
-          "Antechamber Bay",
-          "Brownlow",
-          "Emu Bay",
-          "Granite Island",
-          "Kingscote",
-          "Nepean Pines",
-          "Penneshaw",
-          "Troubridge Island",
-          "Vivonne Bay",
-          "West Island"
+          "Antechamber Bay", "Brownlow", "Emu Bay", "Granite Island",
+          "Kingscote", "Nepean Pines", "Penneshaw", "Troubridge Island",
+          "Vivonne Bay", "West Island"
         ],
         "labels": [
           "Show all colonies",
-          "Antechamber Bay",
-          "Brownlow",
-          "Emu Bay",
-          "Granite Island",
-          "Kingscote",
-          "Nepean Pines",
-          "Penneshaw",
-          "Troubridge Island",
-          "Vivonne Bay",
-          "West Island"
+          "Antechamber Bay", "Brownlow", "Emu Bay", "Granite Island",
+          "Kingscote", "Nepean Pines", "Penneshaw", "Troubridge Island",
+          "Vivonne Bay", "West Island"
         ],
         "name": "Colony: "
       }
@@ -62,9 +42,7 @@
   },
 
   "transform": [
-    {
-      "filter": "Colony_selection == null || datum.Colony == Colony_selection"
-    },
+    { "filter": "Colony_selection == null || datum.Colony == Colony_selection" },
     {
       "calculate": "Weather_variable == 'wind' ? toNumber(datum['Wind speeds']) : toNumber(datum['Rainfall'])",
       "as": "Selected weather value"
@@ -73,128 +51,93 @@
       "calculate": "Weather_variable == 'wind' ? 'Wind speed' : 'Rainfall'",
       "as": "Selected weather label"
     },
-    {
-      "filter": "isValid(datum['Selected weather value']) && isValid(datum['Number of fledglings']) && isValid(datum['Number of eggs'])"
-    },
+    { "filter": "isValid(datum['Selected weather value']) && isValid(datum['Number of fledglings']) && isValid(datum['Number of eggs'])" },
     {
       "calculate": "datum['Number of eggs'] > 0 ? datum['Number of fledglings'] / datum['Number of eggs'] : null",
       "as": "Fledglings per egg"
     }
   ],
 
-  "mark": {
-    "type": "circle",
-    "opacity": 0.75,
-    "stroke": "white",
-    "strokeWidth": 0.8
-  },
-
-  "encoding": {
-    "x": {
-      "field": "Selected weather value",
-      "type": "quantitative",
-      "title": "Selected weather variable",
-      "axis": {
-        "labelExpr": "format(datum.value, ',.1f')"
-      }
-    },
-    "y": {
-      "field": "Number of fledglings",
-      "type": "quantitative",
-      "title": "Number of fledglings",
-      "axis": {
-        "labelExpr": "format(datum.value, ',.0f')"
-      }
-    },
-    "size": {
-      "field": "Number of eggs",
-      "type": "quantitative",
-      "title": "Eggs recorded",
-      "scale": {
-        "range": [40, 700]
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "opacity": 0.75,
+        "stroke": "white",
+        "strokeWidth": 0.8
       },
-      "legend": {
-        "format": ".0f",
-        "values": [50, 100, 150, 200, 250]
-      }
-    },
-    "color": {
-      "field": "Colony",
-      "type": "nominal",
-      "title": "Colony",
-      "scale": {
-        "domain": [
-          "Antechamber Bay",
-          "Brownlow",
-          "Emu Bay",
-          "Granite Island",
-          "Kingscote",
-          "Nepean Pines",
-          "Penneshaw",
-          "Troubridge Island",
-          "Vivonne Bay",
-          "West Island"
-        ],
-        "range": [
-          "#4e79a7",
-          "#f28e2b",
-          "#e15759",
-          "#76b7b2",
-          "#59a14f",
-          "#edc948",
-          "#b07aa1",
-          "#ff9da7",
-          "#9c755f",
-          "#bab0ac"
+      "encoding": {
+        "x": {
+          "field": "Selected weather value",
+          "type": "quantitative",
+          "title": "Selected weather variable",
+          "axis": { "labelExpr": "format(datum.value, ',.1f')" }
+        },
+        "y": {
+          "field": "Number of fledglings",
+          "type": "quantitative",
+          "title": "Number of fledglings",
+          "axis": { "labelExpr": "format(datum.value, ',.0f')" }
+        },
+        "size": {
+          "field": "Number of eggs",
+          "type": "quantitative",
+          "title": "Eggs recorded",
+          "scale": { "range": [40, 700] },
+          "legend": { "format": "," }
+        },
+        "color": {
+          "field": "Colony",
+          "type": "nominal",
+          "title": "Colony",
+          "scale": {
+            "domain": [
+              "Antechamber Bay", "Brownlow", "Emu Bay", "Granite Island",
+              "Kingscote", "Nepean Pines", "Penneshaw", "Troubridge Island",
+              "Vivonne Bay", "West Island"
+            ],
+            "range": [
+              "#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
+              "#59a14f", "#edc948", "#b07aa1", "#ff9da7",
+              "#9c755f", "#bab0ac"
+            ]
+          }
+        },
+        "tooltip": [
+          { "field": "Colony",                "type": "nominal",      "title": "Colony" },
+          { "field": "Year",                  "type": "ordinal",      "title": "Year" },
+          { "field": "Selected weather label","type": "nominal",      "title": "Weather variable" },
+          { "field": "Selected weather value","type": "quantitative", "title": "Weather value",      "format": ".2f" },
+          { "field": "Number of eggs",        "type": "quantitative", "title": "Eggs",               "format": "," },
+          { "field": "Number of nestlings",   "type": "quantitative", "title": "Nestlings",          "format": "," },
+          { "field": "Number of fledglings",  "type": "quantitative", "title": "Fledglings",         "format": "," },
+          { "field": "Fledglings per egg",    "type": "quantitative", "title": "Fledglings per egg", "format": ".2f" }
         ]
       }
     },
-    "tooltip": [
-      {
-        "field": "Colony",
-        "type": "nominal",
-        "title": "Colony"
+
+    {
+      "data": {
+        "values": [
+          { "show_var": "wind",     "label": "Points spread widely — no clear relationship between wind speed and fledgling numbers" },
+          { "show_var": "rainfall", "label": "Points spread widely — no clear relationship between rainfall and fledgling numbers" }
+        ]
       },
-      {
-        "field": "Year",
-        "type": "ordinal",
-        "title": "Year"
+      "transform": [
+        { "filter": "datum.show_var == Weather_variable" }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontStyle": "italic",
+        "color": "#888",
+        "x": 20,
+        "y": 20,
+        "align": "left"
       },
-      {
-        "field": "Selected weather label",
-        "type": "nominal",
-        "title": "Weather variable"
-      },
-      {
-        "field": "Selected weather value",
-        "type": "quantitative",
-        "title": "Weather value",
-        "format": ".2f"
-      },
-      {
-        "field": "Number of eggs",
-        "type": "quantitative",
-        "title": "Eggs",
-        "format": ","
-      },
-      {
-        "field": "Number of nestlings",
-        "type": "quantitative",
-        "title": "Nestlings",
-        "format": ","
-      },
-      {
-        "field": "Number of fledglings",
-        "type": "quantitative",
-        "title": "Fledglings",
-        "format": ","
-      },
-      {
-        "field": "Fledglings per egg",
-        "type": "quantitative",
-        "title": "Fledglings per egg",
-        "format": ".2f"
+      "encoding": {
+        "text": { "field": "label" }
       }
-    ]
-  }
+    }
+  ]
 }

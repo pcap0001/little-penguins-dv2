@@ -34,76 +34,140 @@
       "width": 600,
       "height": 330,
 
-      "transform": [
+      "layer": [
         {
-          "filter": {
-            "param": "stage_year_brush",
-            "empty": true
-          }
-        },
-        {
-          "aggregate": [
+          "transform": [
             {
-              "op": "sum",
-              "field": "Count",
-              "as": "Total count"
+              "filter": {
+                "param": "stage_year_brush",
+                "empty": true
+              }
+            },
+            {
+              "aggregate": [
+                {
+                  "op": "sum",
+                  "field": "Count",
+                  "as": "Total count"
+                }
+              ],
+              "groupby": ["Year", "Stage"]
             }
           ],
-          "groupby": ["Year", "Stage"]
+
+          "mark": {
+            "type": "line",
+            "point": true,
+            "strokeWidth": 2.5
+          },
+
+          "encoding": {
+            "x": {
+              "field": "Year",
+              "type": "ordinal",
+              "title": "Year",
+              "axis": {
+                "labelAngle": -45
+              }
+            },
+            "y": {
+              "field": "Total count",
+              "type": "quantitative",
+              "title": "Total count",
+              "axis": {
+                "labelExpr": "format(datum.value, ',.0f')"
+              }
+            },
+            "color": {
+              "field": "Stage",
+              "type": "nominal",
+              "legend": null,
+              "scale": {
+                "domain": ["Eggs", "Nestlings", "Fledglings"],
+                "range": ["#9ecae1", "#225ea8", "#4292c6"]
+              }
+            },
+            "tooltip": [
+              {
+                "field": "Stage",
+                "type": "nominal",
+                "title": "Breeding stage"
+              },
+              {
+                "field": "Year",
+                "type": "ordinal",
+                "title": "Year"
+              },
+              {
+                "field": "Total count",
+                "type": "quantitative",
+                "title": "Total count",
+                "format": ","
+              }
+            ]
+          }
+        },
+
+        {
+          "data": {
+            "values": [
+              { "Year": "2005", "label": "Largest gap: only 36% of eggs\nbecame fledglings (376 eggs, 136 fledglings)", "y": 310, "align": "left", "dx": 8 },
+              { "Year": "2015", "label": "Worst year: only 17% survival\n(138 eggs, just 23 fledglings)", "y": 200, "align": "left", "dx": 8 },
+              { "Year": "2001", "label": "Poor year: 13% survival\n(128 eggs, 17 fledglings)", "y": 240, "align": "right", "dx": -8 }
+            ]
+          },
+          "mark": {
+            "type": "rule",
+            "color": "#888",
+            "strokeDash": [4, 3],
+            "strokeWidth": 1.2
+          },
+          "encoding": {
+            "x": {
+              "field": "Year",
+              "type": "ordinal"
+            },
+            "y": { "value": 0 },
+            "y2": { "value": 330 }
+          }
+        },
+
+        {
+          "data": {
+            "values": [
+              { "Year": "2005", "label": "Largest gap: only 36%\nof eggs fledged", "y": 310, "align": "left", "dx": 8 },
+              { "Year": "2015", "label": "Worst year: only 17%\nsurvival rate", "y": 200, "align": "left", "dx": 8 },
+              { "Year": "2001", "label": "13% survival —\npoorest recorded", "y": 240, "align": "right", "dx": -8 }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "fontSize": 11,
+            "fontStyle": "italic",
+            "color": "#555",
+            "lineBreak": "\n"
+          },
+          "encoding": {
+            "x": {
+              "field": "Year",
+              "type": "ordinal"
+            },
+            "y": {
+              "field": "y",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            },
+            "align": {
+              "field": "align"
+            },
+            "dx": {
+              "field": "dx"
+            }
+          }
         }
-      ],
-
-      "mark": {
-        "type": "line",
-        "point": true,
-        "strokeWidth": 2.5
-      },
-
-      "encoding": {
-        "x": {
-          "field": "Year",
-          "type": "ordinal",
-          "title": "Year",
-          "axis": {
-            "labelAngle": -45
-          }
-        },
-        "y": {
-          "field": "Total count",
-          "type": "quantitative",
-          "title": "Total count",
-          "axis": {
-            "labelExpr": "format(datum.value, ',.0f')"
-          }
-        },
-        "color": {
-          "field": "Stage",
-          "type": "nominal",
-          "legend": null,
-          "scale": {
-            "domain": ["Eggs", "Nestlings", "Fledglings"],
-            "range": ["#9ecae1", "#225ea8", "#4292c6"]
-          }
-        },
-        "tooltip": [
-          {
-            "field": "Stage",
-            "type": "nominal",
-            "title": "Breeding stage"
-          },
-          {
-            "field": "Year",
-            "type": "ordinal",
-            "title": "Year"
-          },
-          {
-            "field": "Total count",
-            "type": "quantitative",
-            "title": "Total count",
-            "format": ","
-          }
-        ]
-      }
+      ]
     },
 
     {
