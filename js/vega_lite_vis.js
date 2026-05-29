@@ -7,6 +7,10 @@ var vg_10 = "js/breeding_season_timing.vg.json";
 var vg_11 = "js/weather_vs_fledglings.vg.json";
 var vg_12 = "js/heat_stress_heatmap.vg.json";
 
+var vg_4 = "js/penguin_tracking_map.vg.json";
+var vg_5 = "js/penguin_tracks_map.vg.json";
+var vg_9 = "js/colony_map.vg.json";
+
 vegaEmbed("#records_by_time", vg_1).then(function(result) {
 }).catch(console.error);
 
@@ -16,46 +20,8 @@ vegaEmbed("#records_by_time", vg_1).then(function(result) {
 vegaEmbed("#records_by_penguin", vg_3).then(function(result) {
 }).catch(console.error);
 
-// ── Leaflet overview map ────────────────────────────────────────────────────
-(function () {
-  var overviewMap = L.map("penguin-overview-map").setView([-36.5, 147.5], 6);
-
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 18
-  }).addTo(overviewMap);
-
-  fetch("https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv")
-    .then(function(r) { return r.text(); })
-    .then(function(csvText) {
-      var lines = csvText.trim().split("\n");
-      var headers = lines[0].split(",");
-      var idIdx  = headers.indexOf("organismID");
-      var latIdx = headers.indexOf("decimalLatitude");
-      var lngIdx = headers.indexOf("decimalLongitude");
-      var dtIdx  = headers.indexOf("date");
-
-      for (var i = 1; i < lines.length; i++) {
-        var cols = lines[i].split(",");
-        var lat  = parseFloat(cols[latIdx]);
-        var lng  = parseFloat(cols[lngIdx]);
-        var id   = cols[idIdx];
-        var dt   = cols[dtIdx];
-        if (isNaN(lat) || isNaN(lng)) continue;
-
-        L.circleMarker([lat, lng], {
-          radius: 3,
-          color: "#c0392b",
-          fillColor: "#e74c3c",
-          fillOpacity: 0.25,
-          weight: 0
-        }).bindTooltip("Penguin " + id + "<br>" + dt, { sticky: true })
-          .addTo(overviewMap);
-      }
-    })
-    .catch(console.error);
-})();
-// ── end Leaflet overview map ────────────────────────────────────────────────
+vegaEmbed("#penguin_tracking_map", vg_4).then(function(result) {
+}).catch(console.error);
 
 vegaEmbed("#fledglings_over_time", vg_6).then(function(result) {
   var view = result.view;
@@ -273,150 +239,44 @@ vegaEmbed("#heat_stress_heatmap", vg_12).then(function(result) {
   maxSlider.addEventListener("input", updateSliders);
 }).catch(console.error);
 
-// ── Leaflet penguin tracks map ──────────────────────────────────────────────
-(function () {
-  var PENGUIN_COLORS = {
-    "237": "#4c78a8", "243": "#b279a2", "248": "#ff9da6", "250": "#72b7b2",
-    "251": "#e45756", "252": "#eeca3b", "360": "#f58518", "361": "#bab0ac",
-    "364": "#54a24b", "366": "#9d755d"
-  };
+vegaEmbed("#penguin_tracks_map", vg_5).then(function(result) {
+  var view = result.view;
 
-  var checkboxIds = ["show237","show360","show251","show364","show250",
-                     "show252","show243","show248","show366","show361"];
+  var checkboxIds = [
+    "show237","show360","show251","show364","show250",
+    "show252","show243","show248","show366","show361"
+  ];
 
-  function penguinId(cbId) { return cbId.replace("show", ""); }
+  var selectAll = document.getElementById("selectAllPenguins");
 
-  var map = L.map("penguin-leaflet-map").setView([-37.92, 144.87], 10);
-
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 18
-  }).addTo(map);
-
-  var penguinLayers = {};
-
-  fetch("https://pcap0001.github.io/little-penguins-dv2/data/little_penguins_tracking_clean.csv")
-    .then(function(r) { return r.text(); })
-    .then(function(csvText) {
-      var lines = csvText.trim().split("\n");
-      var headers = lines[0].split(",");
-      var idIdx  = headers.indexOf("organismID");
-      var latIdx = headers.indexOf("decimalLatitude");
-      var lngIdx = headers.indexOf("decimalLongitude");
-      var dtIdx  = headers.indexOf("eventDate");
-
-      var byPenguin = {};
-      Object.keys(PENGUIN_COLORS).forEach(function(id) { byPenguin[id] = []; });
-
-      for (var i = 1; i < lines.length; i++) {
-        var cols = lines[i].split(",");
-        var id   = cols[idIdx];
-        if (!byPenguin[id]) continue;
-        var lat = parseFloat(cols[latIdx]);
-        var lng = parseFloat(cols[lngIdx]);
-        var dt  = cols[dtIdx];
-        if (isNaN(lat) || isNaN(lng)) continue;
-        byPenguin[id].push({ lat: lat, lng: lng, dt: dt });
-      }
-
-      Object.keys(byPenguin).forEach(function(id) {
-        var pts = byPenguin[id].sort(function(a, b) {
-          return a.dt < b.dt ? -1 : a.dt > b.dt ? 1 : 0;
-        });
-        if (pts.length === 0) return;
-
-        var latlngs = pts.map(function(p) { return [p.lat, p.lng]; });
-        var color   = PENGUIN_COLORS[id];
-
-        var line = L.polyline(latlngs, { color: color, weight: 1.8, opacity: 0.55 });
-
-        var dotLayer = L.layerGroup(pts.map(function(p) {
-          return L.circleMarker([p.lat, p.lng], {
-            radius: 2, color: color, fillColor: color, fillOpacity: 0.7, weight: 0
-          }).bindTooltip("Penguin " + id + "<br>" + p.dt, { sticky: true });
-        }));
-
-        var group = L.layerGroup([line, dotLayer]).addTo(map);
-        penguinLayers[id] = group;
-      });
-    })
-    .catch(console.error);
-
-  function setVisibility(id, visible) {
-    var layer = penguinLayers[id];
-    if (!layer) return;
-    if (visible) { map.addLayer(layer); } else { map.removeLayer(layer); }
+  function updateVegaSignal(id) {
+    view.signal(id, document.getElementById(id).checked);
   }
 
   function updateSelectAllState() {
     var allChecked  = checkboxIds.every(function(id) { return document.getElementById(id).checked; });
     var noneChecked = checkboxIds.every(function(id) { return !document.getElementById(id).checked; });
-    var selectAll   = document.getElementById("selectAllPenguins");
     selectAll.checked       = allChecked;
     selectAll.indeterminate = !allChecked && !noneChecked;
   }
 
-  checkboxIds.forEach(function(cbId) {
-    document.getElementById(cbId).addEventListener("change", function() {
-      setVisibility(penguinId(cbId), this.checked);
+  checkboxIds.forEach(function(id) {
+    document.getElementById(id).addEventListener("change", function() {
+      updateVegaSignal(id);
       updateSelectAllState();
+      view.runAsync();
     });
   });
 
-  document.getElementById("selectAllPenguins").addEventListener("change", function() {
-    checkboxIds.forEach(function(cbId) {
-      var cb = document.getElementById(cbId);
-      cb.checked = document.getElementById("selectAllPenguins").checked;
-      setVisibility(penguinId(cbId), cb.checked);
+  selectAll.addEventListener("change", function() {
+    checkboxIds.forEach(function(id) {
+      document.getElementById(id).checked = selectAll.checked;
+      updateVegaSignal(id);
     });
-    document.getElementById("selectAllPenguins").indeterminate = false;
+    selectAll.indeterminate = false;
+    view.runAsync();
   });
-})();
-// ── end Leaflet penguin tracks map ──────────────────────────────────────────
+}).catch(console.error);
 
-// ── Leaflet SA colony locations map ─────────────────────────────────────────
-(function () {
-  var COLONY_COLORS = {
-    "Antechamber Bay":   "#4e79a7",
-    "Brownlow":          "#f28e2b",
-    "Emu Bay":           "#e15759",
-    "Granite Island":    "#76b7b2",
-    "Kingscote":         "#59a14f",
-    "Nepean Pines":      "#edc948",
-    "Penneshaw":         "#b07aa1",
-    "Troubridge Island": "#ff9da7",
-    "Vivonne Bay":       "#9c755f",
-    "West Island":       "#bab0ac"
-  };
-
-  var COLONIES = [
-    { name: "Antechamber Bay",   lat: -35.7877, lng: 138.0587 },
-    { name: "Brownlow",          lat: -35.6699, lng: 137.6139 },
-    { name: "Emu Bay",           lat: -35.5907, lng: 137.5037 },
-    { name: "Granite Island",    lat: -35.5641, lng: 138.6302 },
-    { name: "Kingscote",         lat: -35.6550, lng: 137.6393 },
-    { name: "Nepean Pines",      lat: -35.6800, lng: 137.6300 },
-    { name: "Penneshaw",         lat: -35.7183, lng: 137.9403 },
-    { name: "Troubridge Island", lat: -35.1177, lng: 137.8273 },
-    { name: "Vivonne Bay",       lat: -35.9814, lng: 137.1805 },
-    { name: "West Island",       lat: -35.6083, lng: 138.5917 }
-  ];
-
-  var colonyMap = L.map("colony-leaflet-map").setView([-35.75, 137.8], 8);
-
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 18
-  }).addTo(colonyMap);
-
-  COLONIES.forEach(function(colony) {
-    var color = COLONY_COLORS[colony.name];
-    L.circleMarker([colony.lat, colony.lng], {
-      radius: 10, color: "#fff", weight: 2, fillColor: color, fillOpacity: 0.9
-    })
-    .bindPopup("<strong>" + colony.name + "</strong>")
-    .bindTooltip(colony.name, { permanent: false, direction: "top" })
-    .addTo(colonyMap);
-  });
-})();
-// ── end Leaflet SA colony locations map ──────────────────────────────────────
+vegaEmbed("#colony_map", vg_9).then(function(result) {
+}).catch(console.error);

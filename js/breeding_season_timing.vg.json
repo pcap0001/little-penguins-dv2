@@ -54,10 +54,10 @@
       "field": "start_month_num",
       "type": "quantitative",
       "title": "Breeding season timing",
-      "scale": { "domain": [1, 15] },
+      "scale": { "domain": [1, 17] },
       "axis": {
-        "values": [1, 3, 5, 7, 9, 11, 13, 15],
-        "labelExpr": "datum.value == 1 ? 'Jan' : datum.value == 3 ? 'Mar' : datum.value == 5 ? 'May' : datum.value == 7 ? 'Jul' : datum.value == 9 ? 'Sep' : datum.value == 11 ? 'Nov' : datum.value == 13 ? 'Jan' : 'Mar'"
+        "values": [1, 3, 5, 7, 9, 11, 13, 15, 17],
+        "labelExpr": "datum.value == 1 ? 'Jan' : datum.value == 3 ? 'Mar' : datum.value == 5 ? 'May' : datum.value == 7 ? 'Jul' : datum.value == 9 ? 'Sep' : datum.value == 11 ? 'Nov' : datum.value == 13 ? 'Jan' : datum.value == 15 ? 'Mar' : 'May'"
       }
     },
     "x2": { "field": "end_month_num" },

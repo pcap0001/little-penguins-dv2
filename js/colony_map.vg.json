@@ -1,0 +1,268 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 600,
+  "height": 420,
+  "title": "South Australian Little Penguin Colony Locations",
+  "params": [
+    {
+      "name": "zoom_level",
+      "value": 3500,
+      "bind": {
+        "input": "range",
+        "min": 500,
+        "max": 40000,
+        "step": 100,
+        "name": "Zoom: "
+      }
+    },
+    {
+      "name": "center_to",
+      "value": [
+        137.8,
+        -35.75
+      ],
+      "bind": {
+        "input": "select",
+        "options": [
+          [
+            137.8,
+            -35.75
+          ],
+          [
+            137.55,
+            -35.65
+          ],
+          [
+            138.1,
+            -35.73
+          ],
+          [
+            138.59,
+            -35.58
+          ]
+        ],
+        "labels": [
+          "Full view",
+          "Western Kangaroo Island",
+          "Eastern Kangaroo Island",
+          "Fleurieu Peninsula"
+        ],
+        "name": "Map Centre: "
+      }
+    }
+  ],
+  "projection": {
+    "type": "mercator",
+    "center": {
+      "expr": "center_to"
+    },
+    "scale": {
+      "expr": "zoom_level"
+    }
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "https://pcap0001.github.io/little-penguins-dv2/data/southeast_australia.json",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_10m_admin_0_countries"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e6eef2",
+        "stroke": "#9aa6ac",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "colony": "Antechamber Bay",
+            "lat": -35.7877,
+            "lng": 138.0587
+          },
+          {
+            "colony": "Brownlow",
+            "lat": -35.6699,
+            "lng": 137.6139
+          },
+          {
+            "colony": "Emu Bay",
+            "lat": -35.5907,
+            "lng": 137.5037
+          },
+          {
+            "colony": "Granite Island",
+            "lat": -35.5641,
+            "lng": 138.6302
+          },
+          {
+            "colony": "Kingscote",
+            "lat": -35.655,
+            "lng": 137.6393
+          },
+          {
+            "colony": "Nepean Pines",
+            "lat": -35.68,
+            "lng": 137.63
+          },
+          {
+            "colony": "Penneshaw",
+            "lat": -35.7183,
+            "lng": 137.9403
+          },
+          {
+            "colony": "Troubridge Island",
+            "lat": -35.1177,
+            "lng": 137.8273
+          },
+          {
+            "colony": "Vivonne Bay",
+            "lat": -35.9814,
+            "lng": 137.1805
+          },
+          {
+            "colony": "West Island",
+            "lat": -35.6083,
+            "lng": 138.5917
+          }
+        ]
+      },
+      "mark": {
+        "type": "circle",
+        "size": 120,
+        "stroke": "white",
+        "strokeWidth": 1.5,
+        "opacity": 0.95
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lng",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "colony",
+          "type": "nominal",
+          "title": "Colony",
+          "scale": {
+            "domain": [
+              "Antechamber Bay",
+              "Brownlow",
+              "Emu Bay",
+              "Granite Island",
+              "Kingscote",
+              "Nepean Pines",
+              "Penneshaw",
+              "Troubridge Island",
+              "Vivonne Bay",
+              "West Island"
+            ],
+            "range": [
+              "#4e79a7",
+              "#f28e2b",
+              "#e15759",
+              "#76b7b2",
+              "#59a14f",
+              "#edc948",
+              "#b07aa1",
+              "#ff9da7",
+              "#9c755f",
+              "#bab0ac"
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "colony",
+            "type": "nominal",
+            "title": "Colony"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "colony": "Antechamber Bay",
+            "lat": -35.7877,
+            "lng": 138.0587
+          },
+          {
+            "colony": "Brownlow",
+            "lat": -35.6699,
+            "lng": 137.6139
+          },
+          {
+            "colony": "Emu Bay",
+            "lat": -35.5907,
+            "lng": 137.5037
+          },
+          {
+            "colony": "Granite Island",
+            "lat": -35.5641,
+            "lng": 138.6302
+          },
+          {
+            "colony": "Kingscote",
+            "lat": -35.655,
+            "lng": 137.6393
+          },
+          {
+            "colony": "Nepean Pines",
+            "lat": -35.68,
+            "lng": 137.63
+          },
+          {
+            "colony": "Penneshaw",
+            "lat": -35.7183,
+            "lng": 137.9403
+          },
+          {
+            "colony": "Troubridge Island",
+            "lat": -35.1177,
+            "lng": 137.8273
+          },
+          {
+            "colony": "Vivonne Bay",
+            "lat": -35.9814,
+            "lng": 137.1805
+          },
+          {
+            "colony": "West Island",
+            "lat": -35.6083,
+            "lng": 138.5917
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "dy": -12,
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#1a2a4a"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lng",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "colony",
+          "type": "nominal"
+        }
+      }
+    }
+  ]
+}

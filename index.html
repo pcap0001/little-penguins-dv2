@@ -6,12 +6,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- Leaflet for interactive penguin tracks map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
@@ -35,7 +31,7 @@
   <!-- ===== SECTION DIVIDER: TRACKING ===== -->
   <div class="explanation-card">
     <h1 class="section-divider-heading">HOW LITTLE PENGUINS LIVE</h1>
-    <h2>Little penguins spend their lives between land and sea. They return to coastal colonies to rest and breed, but travel into nearby waters to feed. The following charts show when penguins were tracked, which individuals had the most records, and how their movements were concentrated around coastal areas.</h2>
+    <h2>The following charts show when penguins were tracked, which individuals had the most records, and how their movements were concentrated around coastal areas.</h2>
   </div>
 
   <!-- When were penguins tracked -->
@@ -45,8 +41,8 @@
       <div class="section-text">
         <p>
 This chart shows when the little penguin tracking records were collected. <br>
-The data was gathered in batches between 2008 and 2012, with some years and months sampled more heavily than others. <br>
-This helps show that the tracking dataset provides useful movement information, but its coverage is not evenly spread across time.
+The data was gathered in batches between <span style="color: #e63946;">2008 and 2012</span>, with some years and months sampled more heavily than others. <br>
+This helps show that the tracking dataset provides useful movement information, but its <span style="color: #e63946;">coverage is not evenly spread</span> across time.
         </p>
       </div>
       <div class="section-chart">
@@ -60,9 +56,9 @@ This helps show that the tracking dataset provides useful movement information, 
     <h1>Which penguins were tracked the most?</h1>
       <div class="section-layout">
       <div class="section-text">
-        <p>Most penguins were tracked for only one day, with a small number tracked across two days.<br>
+        <p>Most penguins were <span style="color: #e63946;">tracked for only one day</span>, with a small number tracked across two days.<br>
           Across the dataset there were 39 individual penguins, but tracking intensity was uneven. <br>
-          The ten most-recorded penguins each had more than 900 location points, meaning their movement paths are much more detailed than others.
+          The ten most-recorded penguins each had <span style="color: #e63946;">more than 900 location points</span>, these penguins are coloured with dark blue as they are the penguins of focus.
         
           </p>
       </div>
@@ -78,10 +74,10 @@ This helps show that the tracking dataset provides useful movement information, 
       <div class="section-layout">
       <div class="section-text">
         <p>Each point represents a recorded little penguin location. The tracking records show how movement is concentrated around coastal waters rather than spread evenly across Australia.</p>
-        <p>The majority of records cluster tightly around the St Kilda colony in Port Phillip Bay. A smaller group of records appears near Montague Island on the NSW south coast. Scroll to zoom and drag to explore the coastline.</p>
+        <p>The majority of records cluster tightly around the St Kilda colony in Port Phillip Bay. A smaller group of records appears near Montague Island on the NSW south coast. Use the zoom slider and map centre dropdown to explore.</p>
       </div>
       <div class="section-chart">
-        <div id="penguin-overview-map"></div>
+        <div id="penguin_tracking_map" style="width:100%;"></div>
       </div>
     </div>
   </div>
@@ -92,10 +88,10 @@ This helps show that the tracking dataset provides useful movement information, 
       <div class="section-layout">
       <div class="section-text">
         <p>This map shows the at-sea foraging movements of tracked penguins from the St Kilda colony. Lines ending near the shore represent penguins returning to their nesting site on the St Kilda breakwater.</p>
-        <p>Individual movement paths differ even within the same colony. Use the checkboxes to show or hide individual penguins. Scroll to zoom, drag to pan.</p>
+        <p>Individual movement paths differ even within the same colony. Use the checkboxes to show or hide individual penguins. Use the zoom slider to explore the tracks in detail.</p>
       </div>
       <div class="section-chart-with-legend">
-        <div id="penguin-leaflet-map"></div>
+        <div id="penguin_tracks_map" style="width:100%;"></div>
         <div class="colony-control">
           <div class="colony-legend-title">Penguin ID</div>
           <label class="select-all-option"><input type="checkbox" id="selectAllPenguins" checked> Select all</label>
@@ -117,7 +113,7 @@ This helps show that the tracking dataset provides useful movement information, 
 
 <!-- ===== SECTION DIVIDER: BREEDING ===== -->
   <div class="explanation-card">
-    <h1 class="section-divider-heading">Returning to land: Breeding &amp; Survival</h1>
+    <h1 class="section-divider-heading">RETURNING TO LAND: BREEDING &amp; SURVIVAL</h1>
     <h2>Little penguins return to coastal colonies to breed and raise chicks. This section uses records from ten South Australian colonies between 1990 and 2018 to compare breeding timing, chick survival, and colony outcomes.</h2>
   </div>
 
@@ -127,32 +123,14 @@ This helps show that the tracking dataset provides useful movement information, 
     <div class="section-layout">
       <div class="section-text">
         <p>The ten monitored colonies are spread across Kangaroo Island and the nearby South Australian coast. Most sit on the island's sheltered north coast or its eastern tip, with Granite Island and West Island located on the Fleurieu Peninsula, and Troubridge Island further north in Gulf St Vincent.</p>
-        <p>Scroll to zoom and drag to explore. Click a marker to see the colony name.</p>
+        <p>Use the zoom slider to get a closer look at colony locations.</p>
       </div>
       <div class="section-chart">
-        <div id="colony-leaflet-map"></div>
+        <div id="colony_map" style="width:100%;"></div>
       </div>
     </div>
   </div>
 
-  <div class="explanation-card">
-    <h1>Eggs, Nestlings and Fledglings</h1>
-
-    <div class="stage-grid">
-      <div>
-        <h3>Eggs</h3>
-        <p>Eggs are the starting point of the breeding cycle. A higher egg count shows more breeding attempts, but it does not mean all chicks survive.</p>
-      </div>
-      <div>
-        <h3>Nestlings</h3>
-        <p>Nestlings are chicks that have hatched and are still being raised in the nest. This stage shows how many eggs progressed into young chicks.</p>
-      </div>
-      <div>
-        <h3>Fledglings</h3>
-        <p>Fledglings are young penguins that have grown enough to leave the nest. This is the strongest outcome measure because it shows how many chicks reached the stage where they could survive beyond the nest.</p>
-      </div>
-    </div>
-  </div>
 
   <!-- 1. When does breeding happen -->
   <div class="chart-section">
@@ -168,13 +146,32 @@ This helps show that the tracking dataset provides useful movement information, 
     </div>
   </div>
 
+  <div class="explanation-card">
+    <h1>Eggs, Nestlings and Fledglings</h1>
+
+    <div class="stage-grid">
+      <div>
+        <h2>Eggs</h2>
+        <h3>Eggs are the starting point of the breeding cycle. A higher egg count shows more breeding attempts, but it does not mean all chicks survive.</h3>
+      </div>
+      <div>
+        <h2>Nestlings</h2>
+        <h3>Nestlings are chicks that have hatched and are still being raised in the nest. This stage shows how many eggs progressed into young chicks.</h3>
+      </div>
+      <div>
+        <h2>Fledglings</h2>
+        <h3>Fledglings are young penguins that have grown enough to leave the nest. This is the strongest outcome measure because it shows how many chicks reached the stage where they could survive beyond the nest.</h3>
+      </div>
+    </div>
+  </div>
+
   <!-- 2. Breeding outcomes over time -->
   <div class="chart-section">
     <h1>How have breeding outcomes changed across colonies?</h1>
       <div class="section-layout">
       <div class="section-text">
         <p>This chart shows how fledgling numbers changed across South Australian colonies over time.<br>
-Troubridge Island stands out with a peak of 122 fledglings, while other colonies show smaller or more irregular patterns. <br>
+Troubridge Island stands out with a <span style="color: #e63946;">peak of 122 fledglings</span>, while other colonies show smaller or more irregular patterns. <br>
           The checkboxes allow colonies to be compared individually, and the lower bar chart can be dragged to focus on a smaller year range.</p>
       </div>
       <div class="section-chart-with-legend">
@@ -200,11 +197,11 @@ Troubridge Island stands out with a peak of 122 fledglings, while other colonies
 
   <!-- 3. Breeding success heatmap -->
   <div class="chart-section">
-    <h1>Which colony-years had stronger breeding success?</h1>
+    <h1>Which colony had stronger breeding success?</h1>
       <div class="section-layout">
       <div class="section-text">
-        <p>This strip plot shows fledgling success for each colony-year. <br>
-          Each dot is one year of data, and the black tick marks show each colony’s average fledglings per egg. <br>
+        <p>This strip plot shows fledgling success for each colony. <br>
+          Each dot is one year of data, and the <span style="color: #e63946;">black tick marks show each colony's average</span> fledglings per egg. <br>
           The wide spread of points shows that breeding success varies both between colonies and from year to year.</p>
       </div>
       <div class="section-chart-with-legend">
@@ -258,7 +255,7 @@ Troubridge Island stands out with a peak of 122 fledglings, while other colonies
       <div class="section-text">
         <p>This chart compares fledgling counts with wind speed and rainfall. <br>
           Each point represents a colony-year, with larger circles showing years where more eggs were recorded. <br>
-          The points are widely scattered, suggesting there is no clear relationship between these weather conditions and fledgling numbers in this dataset.</p>
+          The points are widely scattered, suggesting there is <span style="color: #e63946;">no clear relationship</span> between these weather conditions and fledgling numbers in this dataset.</p>
       </div>
       <div class="section-chart">
         <div id="weather_vs_fledglings" style="width:100%;"></div>
@@ -271,7 +268,7 @@ Troubridge Island stands out with a peak of 122 fledglings, while other colonies
     <h1>Which colonies experienced the most heat stress?</h1>
     <div class="section-layout">
       <div class="section-text">
-        <p>Little penguins are vulnerable to heat stress during the breeding season. This heatmap shows the number of days over 30°C recorded for each colony and year. Darker cells indicate more extreme heat. The white dots show fledgling rate — larger dots mean more eggs became fledglings.</p>
+        <p>Little penguins are vulnerable to heat stress during the breeding season. This heatmap shows the number of days over 30°C recorded for each colony and year. Darker cells indicate more extreme heat. The <span style="color: #e63946;">white dots show fledgling rate</span> - larger dots mean more eggs became fledglings.</p>
       </div>
       <div class="section-chart">
         <div id="heat_stress_heatmap" style="width:100%;"></div>
@@ -289,6 +286,7 @@ Troubridge Island stands out with a peak of 122 fledglings, while other colonies
     <h3 class="references-title">References</h3>
     <p class="references-entry">Johnson, B., &amp; Colombelli-Negrel, D. (2020). <em>Breeding data of little penguins collected at ten colonies in South Australia between 1990 and 2018</em> (Version 1). Flinders University. <a href="https://doi.org/10.25957/dyv5-4a64" target="_blank">https://doi.org/10.25957/dyv5-4a64</a></p>
     <p class="references-entry">Kowalczyk, N. (2023). <em>Home range and core range of little penguins in Port Phillip Bay, Victoria, Australia (2008–2012)</em> (v1.9) [Dataset/Occurrence]. CSIRO National Collections and Marine Infrastructure (NCMI) Information and Data Centre (IDC). <a href="https://www.marine.csiro.au/ipt/resource?r=port_phillip_little_penguins&v=1.9" target="_blank">https://www.marine.csiro.au/ipt/resource?r=port_phillip_little_penguins&amp;v=1.9</a></p>
+ <p>Image source: Phillip Island Nature Parks, published in 9News article “Victoria’s ‘thriving’ little penguins colony breaks record again”, 25 October 2022.</p>
   </div>
 
   </div> <!-- end .vis-wrapper -->

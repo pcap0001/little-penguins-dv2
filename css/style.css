@@ -15,7 +15,7 @@ body {
 h1 {
   font-family: "Fredoka", Arial, sans-serif;
   font-size: 36px;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 0;
   margin-bottom: 1rem;
   text-align: center;
@@ -24,14 +24,14 @@ h1 {
 h2 {
   font-family: "Fredoka", Arial, sans-serif;
   font-size: 26px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 8px;
 }
 
 h3 {
   font-family: "Fredoka", Arial, sans-serif;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 6px;
 }
 
@@ -74,7 +74,7 @@ p {
 
 .section-divider-heading {
   font-size: 2.8em;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.05em;
   display: inline-block;
   padding: 0.35em 1.5em;
@@ -106,12 +106,12 @@ p {
 /* ===== EXPLANATION CARD INTERNALS ===== */
 .explanation-card h2 {
   font-size: 1.5em;
-  font-weight: 500;
+  font-weight: 600;
   margin: 0 0 0.6rem 0;
 }
 .explanation-card h3 {
   font-size: 1.1em;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 0.3rem;
 }
 .explanation-card p {
@@ -130,15 +130,6 @@ p {
 .explanation-card--divider h2 {
   color: white;
 }
-  font-size: 2.8em;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  display: inline-block;
-  padding: 0.35em 1.5em;
-  border-top: 3px solid currentColor;
-  border-bottom: 3px solid currentColor;
-  margin-bottom: 1rem;
-}
 
 /* Stage grid (eggs/nestlings/fledglings) */
 .stage-grid {
@@ -149,10 +140,15 @@ p {
   text-align: left;
 }
 
+.explanation-card .stage-grid h3,
+.explanation-card .stage-grid p {
+  text-align: left;
+}
+
 /* ===== CHART SECTION INTERNALS ===== */
 .chart-section h2 {
   text-align: center;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* Two-column layout: text left, chart right */
@@ -201,6 +197,7 @@ p {
   border-radius: 8px;
   padding: 12px 14px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 14px;
   font-weight: 400;
   flex-shrink: 0;
@@ -208,12 +205,14 @@ p {
 }
 
 .colony-legend-title {
-  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-weight: 600;
   font-size: 15px;
   margin-bottom: 8px;
 }
 
 .colony-control label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -237,12 +236,14 @@ p {
 }
 
 .select-all-option {
-  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-weight: 600;
 }
 
 /* ===== PENGUIN FILTER CONTROL ===== */
 .penguin-control {
   margin-bottom: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 14px;
   font-weight: 400;
 }
@@ -257,11 +258,13 @@ p {
 }
 
 .penguin-control summary {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .penguin-control label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   display: block;
   margin-top: 6px;
   cursor: pointer;
@@ -288,7 +291,7 @@ p {
 .references-title {
   font-family: "Fredoka", Arial, sans-serif;
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 600;
   margin: 0 0 16px 0;
   text-align: left;
 }

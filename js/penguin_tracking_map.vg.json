@@ -14,27 +14,17 @@
         "step": 100,
         "name": "Zoom: "
       }
-    },
-    {
-      "name": "center_to",
-      "value": [146.5, -38.5],
-      "bind": {
-        "input": "select",
-        "options": [
-          [146.5, -38.5],
-          [144.9, -37.8],
-          [145.4, -38.5],
-          [137.6, -35.6]
-        ],
-        "labels": ["SE Australia (full)", "Melbourne", "Phillip Island", "Kangaroo Island"],
-        "name": "Map Centre: "
-      }
     }
   ],
   "projection": {
     "type": "mercator",
-    "center": {"expr": "center_to"},
-    "scale": {"expr": "zoom_level"}
+    "center": [
+      144.9,
+      -37.8
+    ],
+    "scale": {
+      "expr": "zoom_level"
+    }
   },
   "layer": [
     {
